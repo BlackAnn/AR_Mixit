@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="yellowcardtext" size="2.000000 3.200000" />
+    <ImageTarget name="magentacardtext" size="2.000000 3.200000" />
+    <ImageTarget name="cyancardtext" size="2.000000 3.200000" />
+    <ImageTarget name="yellowcard" size="2.000000 3.200000" />
+    <ImageTarget name="violetcard" size="2.000000 3.200000" />
+    <ImageTarget name="orangecard" size="2.000000 3.200000" />
+    <ImageTarget name="magentacard" size="2.000000 3.200000" />
+    <ImageTarget name="greencard" size="2.000000 3.200000" />
+    <ImageTarget name="cyancard" size="2.000000 3.200000" />
+  </Tracking>
+</QCARConfig>
