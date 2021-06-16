@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
     public void MixColors()
     {
         Vector3 resultPosition = new Vector3();
+        Color resultColor = new Color();
 
         //Mix only if there are two targets detected
         if (activeSpheres.Count == 2)
@@ -56,6 +57,7 @@ public class GameManager : MonoBehaviour
             {
                 //Debug.Log(s.Key + " get mixed");
                 resultPosition += s.Value.GetPosition();
+                resultColor = s.Value.GetColorValue();
             }
             resultPosition = resultPosition/2;
             sphereParent.transform.position = resultPosition;
@@ -65,7 +67,7 @@ public class GameManager : MonoBehaviour
                 s.Value.transform.parent = sphereParent.transform;
             }
             sphereParent.ActivateMixing();
-            resultSphere.ShowSphere(resultPosition);
+            resultSphere.ShowSphere(resultColor, resultPosition);
         }
         else
         {

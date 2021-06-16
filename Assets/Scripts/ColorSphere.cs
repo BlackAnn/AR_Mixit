@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class ColorSphere : MonoBehaviour
 {
-
-    public Color color;
+    public ColorNames colorId;
+    private Material material;
+    private Color color;
     private float movementSpeed;
     private Animator animator;
     private bool isMixing;
-    Vector3 targetPosition;
+    private Vector3 targetPosition;
     private GameObject parent;
-    private bool isCoroutineExecuting;
 
 
     // Start is called before the first frame update
@@ -19,10 +19,12 @@ public class ColorSphere : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         isMixing = false;
-        isCoroutineExecuting = false;
-        targetPosition = new Vector3(0.0f, 0.3f, 0.0f);
+        targetPosition = new Vector3();
         movementSpeed = 0.9f;
-        parent = transform.parent.gameObject.transform.parent.gameObject;
+        //parent = transform.parent.gameObject.transform.parent.gameObject;
+        material = ColorPreset.GetMaterialById((int)colorId);
+        color = material.GetColor("_Color");
+        SetMaterial(material);
     }
 
     // Update is called once per frame
@@ -40,6 +42,12 @@ public class ColorSphere : MonoBehaviour
 	{
         return transform.position;
 	}
+
+    public Color GetColorValue()
+    {
+        //return colorInfo.GetColor();
+        return Color.green;
+    }
 
 
     public void ActivateMixing(Vector3 position)
@@ -63,11 +71,17 @@ public class ColorSphere : MonoBehaviour
         Debug.Log("Inside ToggleMixing)");
     }
 
-   
-    /*Set Material Color
-     *MaterialPropertyBlock props = new MaterialPropertyBlock();
-            props.SetColor("_Color", _lemmingManager.GetColor(newColor));
-            _renderer.SetPropertyBlock(props);*/
+    public void SetColor(Color color)
+    {
+        MaterialPropertyBlock props = new MaterialPropertyBlock();
+        props.SetColor("_Color", color);
+        GetComponent<Renderer>().SetPropertyBlock(props);
+    }
+
+    public void SetMaterial(Material material)
+    {
+        GetComponent<MeshRenderer>().material = material;
+    }
 
 
 
