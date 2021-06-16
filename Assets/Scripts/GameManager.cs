@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private Dictionary<string, ColorSphere> activeSpheres = new Dictionary<string, ColorSphere>();
+    public ResultSphere resultSphere;
+    public SphereParent sphereParent;
 
     // Start is called before the first frame update
     void Start()
@@ -30,8 +32,7 @@ public class GameManager : MonoBehaviour
 
     public void SubscribeTarget(string markerName,  ColorSphere sphere)
     {
-        sphere.PositionToString();
-        Debug.Log("Target Subscribed: " + markerName);
+        //Debug.Log("Target Subscribed: " + markerName);
         if (!activeSpheres.ContainsKey(markerName))
         {
             activeSpheres.Add(markerName, sphere);
@@ -40,16 +41,36 @@ public class GameManager : MonoBehaviour
 
     public void UnsubscribeTarget(string markerName)
     {
-        Debug.Log("Target Unsubscribed: " + markerName);
+        //Debug.Log("Target Unsubscribed: " + markerName);
         activeSpheres.Remove(markerName);
     }
 
     public void MixColors()
     {
-        foreach (KeyValuePair<string, ColorSphere> s in activeSpheres)
+        Vector3 resultPosition = new Vector3();
+
+        //Mix only if there are two targets detected
+        if (activeSpheres.Count == 2)
         {
-            s.Value.ActivateMixing();
+            foreach (KeyValuePair<string, ColorSphere> s in activeSpheres)
+            {
+                //Debug.Log(s.Key + " get mixed");
+                resultPosition += s.Value.GetPosition();
+            }
+            resultPosition = resultPosition/2;
+            sphereParent.transform.position = resultPosition;
+            foreach (KeyValuePair<string, ColorSphere> s in activeSpheres)
+            {
+                s.Value.ActivateMixing(resultPosition);
+                s.Value.transform.parent = sphereParent.transform;
+            }
+            sphereParent.ActivateMixing();
+            resultSphere.ShowSphere(resultPosition);
         }
-        //Show ResultSphere (-> Make Script for ResultSphere)
+        else
+        {
+            Debug.Log("You need to lay down two target images in order two mix the two colors");
+            //TO DO: add UI user info here
+        }
     }
 }
