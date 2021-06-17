@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+    
     public enum ColorNames
     {
         CYAN,
@@ -10,7 +10,15 @@ using UnityEngine;
         YELLOW,
         RED,
         BLUE,
-        GREEN
+        GREEN,
+        CYAN_GREEN,
+        CYAN_BLUE,
+        MAGENTA_RED,
+        MAGENTA_BLUE,
+        YELLOW_RED,
+        YELLOW_GREEN,
+        BLACK
+
 
     }
 

@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//TO DO: before showing, set Color to the mixed color
 public class ResultSphere : MonoBehaviour
 {
-    //private Color _color;
     private Animator animator;
 
     // Start is called before the first frame update
@@ -14,16 +12,8 @@ public class ResultSphere : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
     public void ShowSphere(Color color, Vector3 position)
     {
-        //Debug.Log("ShowResultSphere: " + position);
         transform.gameObject.SetActive(true);
         SetColor(color);
         transform.position = position;
@@ -37,5 +27,6 @@ public class ResultSphere : MonoBehaviour
         GetComponent<Renderer>().SetPropertyBlock(props);
     }
 
-  
+
+
 }

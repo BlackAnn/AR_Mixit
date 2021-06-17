@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+ 
+//TO DO: divide game logic & color mixing logic (?)
 public class GameManager : MonoBehaviour
 {
     private Dictionary<string, ColorSphere> activeSpheres = new Dictionary<string, ColorSphere>();
@@ -17,17 +18,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //TestAusgabe
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            //activeSpheres.ForEach(s => Debug.Log("SpherePosition: " + s.GetPosition().x + ", " + s.GetPosition().y + ", " + s.GetPosition().z));
-            Debug.Log("List size = " + activeSpheres.Count);
-            foreach (KeyValuePair<string, ColorSphere> s in activeSpheres)
-            {
-                Debug.Log("Key = " + s.Key + "Sphere Position = " +  s.Value.GetPosition());
-            }
-
-        }
+      
     }
 
     public void SubscribeTarget(string markerName,  ColorSphere sphere)
@@ -42,23 +33,34 @@ public class GameManager : MonoBehaviour
     public void UnsubscribeTarget(string markerName)
     {
         //Debug.Log("Target Unsubscribed: " + markerName);
-        activeSpheres.Remove(markerName);
+        if (activeSpheres.ContainsKey(markerName))
+        {
+            activeSpheres.Remove(markerName);
+        }
     }
 
+    //TO DO: clean up method
+    //TO DO: Restrict max distance between the spheres (before mixing)
     public void MixColors()
     {
         Vector3 resultPosition = new Vector3();
-        Color resultColor = new Color();
+        
+        List<ColorNames> mixingColors = new List<ColorNames>();
 
         //Mix only if there are two targets detected
         if (activeSpheres.Count == 2)
         {
             foreach (KeyValuePair<string, ColorSphere> s in activeSpheres)
             {
-                //Debug.Log(s.Key + " get mixed");
-                resultPosition += s.Value.GetPosition();
-                resultColor = s.Value.GetColorValue();
+                resultPosition += s.Value.GetPosition();             //get positions of the two spheres to calculate their midpoint
+                mixingColors.Add(s.Value.colorId);                  //get colors of the two spheres to use for mixing
             }
+
+            //get mixed Color
+            int resultColorId = (int)MixedColors.Instance.GetMixedColor(mixingColors[0], mixingColors[1]);
+            Color resultColor = ColorPreset.GetColorById(resultColorId);
+
+            //calculate midpoint position and assign spheres to new parent
             resultPosition = resultPosition/2;
             sphereParent.transform.position = resultPosition;
             foreach (KeyValuePair<string, ColorSphere> s in activeSpheres)
@@ -66,6 +68,8 @@ public class GameManager : MonoBehaviour
                 s.Value.ActivateMixing(resultPosition);
                 s.Value.transform.parent = sphereParent.transform;
             }
+
+            //Activate Mixing Animations
             sphereParent.ActivateMixing();
             resultSphere.ShowSphere(resultColor, resultPosition);
         }
@@ -75,4 +79,8 @@ public class GameManager : MonoBehaviour
             //TO DO: add UI user info here
         }
     }
+
+
+
+    
 }
