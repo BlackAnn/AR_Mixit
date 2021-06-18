@@ -15,12 +15,13 @@ public class TrackableHandlers : DefaultTrackableEventHandler
     protected override void OnTrackingFound()
     {
         base.OnTrackingFound();
-        gameManager.SubscribeTarget(mTrackableBehaviour.TrackableName, transform.Find("Sphere").GetComponent<ColorSphere>());
+        gameManager.SubscribeTarget(gameObject.GetComponent<ImageTarget>());
+ 
     }
 
     protected override void OnTrackingLost()
     {
         base.OnTrackingLost();
-        gameManager.UnsubscribeTarget(mTrackableBehaviour.TrackableName);
+        gameManager.UnsubscribeTarget(gameObject.GetComponent<ImageTarget>());
     }
 }
