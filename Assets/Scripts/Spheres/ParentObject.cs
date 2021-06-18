@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SphereParent : MonoBehaviour
+public class ParentObject : MonoBehaviour
 {
     private Animator animator;
 
@@ -23,6 +23,10 @@ public class SphereParent : MonoBehaviour
     {
         //Activate MixingAnimation (to left or right)
         animator.SetTrigger("MixSpheres");
-  
+    }
+
+    public void SetPosition(Vector3 position)
+    {
+        transform.position = position;
     }
 }
