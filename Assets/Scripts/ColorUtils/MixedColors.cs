@@ -49,6 +49,7 @@ public sealed class MixedColors
         }
     }
 
+    //Aufrauf Bsp: MixedColors.Instance.GetMixedColor(color1, color2)
     //returns the result of mixing color1 and color2
     public ColorNames GetMixedColor(ColorNames color1, ColorNames color2)
     {

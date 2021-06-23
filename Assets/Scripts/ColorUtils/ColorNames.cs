@@ -18,7 +18,5 @@ using UnityEngine;
         YELLOW_RED,
         YELLOW_GREEN,
         BLACK
-
-
     }
 

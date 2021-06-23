@@ -9,38 +9,42 @@ public class ColorPreset
 {
 
     //Primary Colors
-    public static ColorPreset CYAN = new ColorPreset(ColorNames.CYAN, "Cyan", new Color(0, 1, 1));
-    public static ColorPreset MAGENTA = new ColorPreset(ColorNames.MAGENTA, "Magenta", new Color(1, 0, 1));
-    public static ColorPreset YELLOW = new ColorPreset(ColorNames.YELLOW, "Gelb", new Color(1, 1, 0));
+    public static ColorPreset CYAN = new ColorPreset(ColorNames.CYAN, "Cyan", new Color(0, 1, 1), false);
+    public static ColorPreset MAGENTA = new ColorPreset(ColorNames.MAGENTA, "Magenta", new Color(1, 0, 1), false);
+    public static ColorPreset YELLOW = new ColorPreset(ColorNames.YELLOW, "Gelb", new Color(1, 1, 0), false);
 
     //Secondary Colors
-    public static ColorPreset RED = new ColorPreset(ColorNames.RED, "Rot", new Color(1, 0, 0));
-    public static ColorPreset BLUE = new ColorPreset(ColorNames.BLUE, "Blau", new Color(0, 0, 1));
-    public static ColorPreset GREEN = new ColorPreset(ColorNames.GREEN, "Grün", new Color(0, 1, 0));
+    public static ColorPreset RED = new ColorPreset(ColorNames.RED, "Rot", new Color(1, 0, 0), true);
+    public static ColorPreset BLUE = new ColorPreset(ColorNames.BLUE, "Blau", new Color(0, 0, 1), true);
+    public static ColorPreset GREEN = new ColorPreset(ColorNames.GREEN, "Grün", new Color(0, 1, 0), true);
 
     //Tertiary Colors
-    public static ColorPreset CYAN_GREEN = new ColorPreset(ColorNames.CYAN_GREEN, "Cyan_Gruen", new Color(0, 1, 0.5f));
-    public static ColorPreset CYAN_BLUE = new ColorPreset(ColorNames.CYAN_BLUE, "Cyan_Blau", new Color(0, 0.5f, 1));
-    public static ColorPreset MAGENTA_RED = new ColorPreset(ColorNames.MAGENTA_RED, "Magenta_Rot", new Color(1, 0, 0.5f));
-    public static ColorPreset MAGENTA_BLUE = new ColorPreset(ColorNames.MAGENTA_BLUE, "Magenta_Blau", new Color(0.5f, 0, 1));
-    public static ColorPreset YELLOW_RED = new ColorPreset(ColorNames.YELLOW_RED, "Gelb_Rot", new Color(1, 0.5f, 0));
-    public static ColorPreset YELLOW_GREEN = new ColorPreset(ColorNames.YELLOW_GREEN, "Gelb_Blau", new Color(0.5f, 1, 0));
+    public static ColorPreset CYAN_GREEN = new ColorPreset(ColorNames.CYAN_GREEN, "Cyan_Gruen", new Color(0, 1, 0.5f), true);
+    public static ColorPreset CYAN_BLUE = new ColorPreset(ColorNames.CYAN_BLUE, "Cyan_Blau", new Color(0, 0.5f, 1), true);
+    public static ColorPreset MAGENTA_RED = new ColorPreset(ColorNames.MAGENTA_RED, "Magenta_Rot", new Color(1, 0, 0.5f), true);
+    public static ColorPreset MAGENTA_BLUE = new ColorPreset(ColorNames.MAGENTA_BLUE, "Magenta_Blau", new Color(0.5f, 0, 1), true);
+    public static ColorPreset YELLOW_RED = new ColorPreset(ColorNames.YELLOW_RED, "Gelb_Rot", new Color(1, 0.5f, 0), true);
+    public static ColorPreset YELLOW_GREEN = new ColorPreset(ColorNames.YELLOW_GREEN, "Gelb_Blau", new Color(0.5f, 1, 0), true);
 
     //Black (ändern?)
-    public static ColorPreset BLACK = new ColorPreset(ColorNames.BLACK, "Schwarz", new Color(0, 0, 0));
+    public static ColorPreset BLACK = new ColorPreset(ColorNames.BLACK, "Schwarz", new Color(0, 0, 0), false);
 
 
     private ColorNames id;
     private string displayName;
     private Color color;
+    private bool mixable;
 
-    ColorPreset(ColorNames id, string name, Color color)
+    ColorPreset(ColorNames id, string name, Color color, bool mixable)
     {
         this.id = id;
         this.displayName = name;
         this.color = color;
+        this.mixable = mixable;
     }
 
+    //ColorPreset.GetValues()[random]  --> random Farbwert erhalten
+    //ColorPreset.GetValues()[(int)ColorNames.CYAN]  --> Werte fuer Cyan
     private static List<ColorPreset> GetValues()
     {
         List<ColorPreset> list = new List<ColorPreset>();
@@ -62,7 +66,7 @@ public class ColorPreset
         return list;
     }
 
-
+    //zB: id = (int)ColorNames.CYAN   ---> gibt Wert fuer Cyan zurueck
     public static Color GetColorById(int id)
     {
         //TO DO: add check if id exists
