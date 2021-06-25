@@ -19,4 +19,9 @@ public class ImageTarget : MonoBehaviour
 
     }
 
+    public Vector3 GetPosition()
+    {
+        return transform.position;
+    }
+
 }

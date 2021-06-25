@@ -40,7 +40,9 @@ public class ColorSphere : MonoBehaviour
         {
             //Move Sphere towards center of parent object
             transform.position = Vector3.MoveTowards(transform.position, _targetPosition, _movementSpeed * Time.deltaTime);
-            if(transform.localScale.Equals(new Vector3(0, 0, 0)))
+            //transform.localScale = Vector3.MoveTowards(transform.localScale, new Vector3(0, 0, 0), _movementSpeed * Time.deltaTime);
+
+            if (transform.localScale.Equals(new Vector3(0, 0, 0)))
             {
                 transform.gameObject.SetActive(false);
                 _isMixing = !_isMixing;
@@ -90,7 +92,10 @@ public class ColorSphere : MonoBehaviour
 
     public void ActivateMixing(Vector3 position, GameObject parent)
     {
-        _animator.SetTrigger("MixSpheres");
+        Debug.Log("Sphere Local Position = " + transform.localPosition);
+        Debug.Log("Sphere Position = " + transform.position);
+
+        //_animator.SetTrigger("MixSpheres");
         _targetPosition = position;
         SetParent(parent);
 
@@ -103,6 +108,11 @@ public class ColorSphere : MonoBehaviour
     {
         _isMixing = !_isMixing;
         Debug.Log("Inside ToggleMixing)");
+    }
+
+    public void SetTargetPosition(Vector3 targetPosition)
+    {
+        _targetPosition = targetPosition;
     }
 
 

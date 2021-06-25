@@ -29,6 +29,11 @@ public class ResultSphere : MonoBehaviour
         GetComponent<Renderer>().SetPropertyBlock(props);
     }
 
+    public void SetPosition(Vector3 position)
+    {
+        transform.position = position;
+    }
+
     //resets the sphere to its initial state
     public void Reset()
     {
