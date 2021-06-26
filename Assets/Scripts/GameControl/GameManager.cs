@@ -2,16 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
- 
+using UnityEngine.SceneManagement;
+
+
+
 //@Anna, hier sind ein paar Methoden/Variablen, die wichtig für dich sein könnten
 //MixColors() aktiviert das Farbmischen, wenn zwei Spheren angezeigt werden
 //Reset() setzt alles in den Initialzustand zurück (zB nachdem gemischt wurde)
 //das boolean "displaySpheres" sagt aus ob die Spheren angezeigt werden sollen, wenn ein Image Target getrackt wird (während dem Mischen oder während einer anderen Nutzer-Interaktion sollen z.B. keine neuen Spheren angezeigt werden). 
 public class GameManager : MonoBehaviour
 {
+    public UIController learnModeUI;
+    public UIController quizModeUI;
+    [SerializeField]private QuizManager quizManager;
+
+
     private Dictionary<ImageTarget, ColorSphere> activeSpheres = new Dictionary<ImageTarget, ColorSphere>();
     public ResultSphere resultSphere;
     public ParentObject parentObject;
+
     [SerializeField]private AnimatorSynchronizer animSynchronizer;
     //private bool displaySpheres;
     //private bool isMixing;
@@ -34,10 +43,37 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //displaySpheres = true;
-        state = GameState.idle;
+        
         currentMixingTargets = new List<ImageTarget>();
         currentMixingSpheres = new List<ColorSphere>();
         previousTargetpositions = new List<Vector3>();
+
+        if (GameModeController.gameMode.Equals("Learn"))
+        {
+            state = GameState.showingSpheres;
+            learnModeUI.Show();
+            quizModeUI.Hide();
+            
+        }
+        else if (GameModeController.gameMode.Equals("Quiz"))
+        {
+            state = GameState.idle;
+            learnModeUI.Show();
+            quizModeUI.Hide();
+            quizManager.Setup();
+         
+        }
+        else
+        {
+            state = GameState.showingSpheres;
+        }
+    }
+
+    //Add to UI Controller
+    public void GoToMainMenu()
+    {
+        GameModeController.menuMode = "Options";
+        SceneManager.LoadScene(0);
     }
 
     // Update is called once per frame
