@@ -14,11 +14,11 @@ public class ResultSphere : MonoBehaviour
         _initialScale = new Vector3(0, 0, 0);
     }
 
-    public void ShowSphere(Color color, Vector3 position)
+    public void ShowSphere(Color color)
     {
         transform.gameObject.SetActive(true);
         SetMaterialColor(color);
-        transform.position = position;
+   
         _animator.SetTrigger("ShowResultSphere");
     }
 
@@ -27,6 +27,11 @@ public class ResultSphere : MonoBehaviour
         MaterialPropertyBlock props = new MaterialPropertyBlock();
         props.SetColor("_Color", color);
         GetComponent<Renderer>().SetPropertyBlock(props);
+    }
+
+    public void SetPosition(Vector3 position)
+    {
+        transform.position = position;
     }
 
     //resets the sphere to its initial state

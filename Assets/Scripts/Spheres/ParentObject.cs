@@ -21,6 +21,8 @@ public class ParentObject : MonoBehaviour
 
     public void ActivateMixing()
     {
+        Debug.Log("ParentPosition = " + transform.position);
+
         //Activate MixingAnimation (to left or right)
         animator.SetTrigger("MixSpheres");
     }
