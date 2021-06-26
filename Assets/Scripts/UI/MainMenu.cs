@@ -16,14 +16,14 @@ public class MainMenu : MonoBehaviour {
     public GameObject ModeTitle;
     public GameObject ModeHelpText;
 
-    public void PlayGame (string modeInput) {
+    public void PlayGame(string modeInput) {
         SceneManager.LoadScene(1);
         GameModeController.gameMode = modeInput;
     }
 
     public void CheckModeOptions() {
         if (GameModeController.gameMode.Equals("Learn")) {
-            LearnModeButton.SetActive(false);                      
+            LearnModeButton.SetActive(false);
             QuizModeButton.SetActive(true);
         } else if (GameModeController.gameMode.Equals("Quiz")) {
             LearnModeButton.SetActive(true);
@@ -78,7 +78,7 @@ public class MainMenu : MonoBehaviour {
         }
     }
 
-    public void QuitApplication () {
+    public void QuitApplication() {
         Debug.Log("quitting app");
         Application.Quit();
     }
