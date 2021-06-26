@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 //Class containing constants for the colors
-public class ColorPreset 
+public class ColorPreset
 {
 
     //Primary Colors
@@ -43,9 +43,17 @@ public class ColorPreset
         this.mixable = mixable;
     }
 
+    public bool GetMixable() {
+        return mixable;
+    }
+
+    public Color GetColor() {
+        return color;
+    }
+
     //ColorPreset.GetValues()[random]  --> random Farbwert erhalten
     //ColorPreset.GetValues()[(int)ColorNames.CYAN]  --> Werte fuer Cyan
-    private static List<ColorPreset> GetValues()
+    public static List<ColorPreset> GetValues()
     {
         List<ColorPreset> list = new List<ColorPreset>();
 
@@ -78,6 +86,5 @@ public class ColorPreset
         //TO DO: add check if id exists
         return GetValues()[id].displayName;
     }
-
 
 }

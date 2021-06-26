@@ -743,6 +743,7 @@ PlayerSettings:
       daydreamIconForeground: {fileID: 0}
       daydreamIconBackground: {fileID: 0}
   cloudServicesEnabled:
+    Collab: 0
     UNet: 1
   luminIcon:
     m_Name: 
@@ -756,10 +757,10 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: 284e8b80-19cf-42ea-a5e3-afa6029f8bfb
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: mititTest
+  organizationId: duskerst
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

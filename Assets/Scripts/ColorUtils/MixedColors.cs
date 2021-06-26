@@ -54,7 +54,7 @@ public sealed class MixedColors
     public ColorNames GetMixedColor(ColorNames color1, ColorNames color2)
     {
         Tuple <ColorNames, ColorNames> combi1 = new Tuple <ColorNames, ColorNames>(color1, color2);
-        Tuple<ColorNames, ColorNames> combi2 = new Tuple<ColorNames, ColorNames>(color2, color1);
+        Tuple <ColorNames, ColorNames> combi2 = new Tuple <ColorNames, ColorNames>(color2, color1);
 
         if (mixedColorsDict.ContainsKey(combi1))
         {

@@ -7,5 +7,4 @@ public class GameModeController : MonoBehaviour
     public static string gameMode;
     public static string menuMode;
     public static string previousWindow;
-
 }
