@@ -43,9 +43,17 @@ public class ColorPreset
         this.mixable = mixable;
     }
 
+    public bool GetMixable() {
+        return mixable;
+    }
+
+    public Color GetColor() {
+        return color;
+    }
+
     //ColorPreset.GetValues()[random]  --> random Farbwert erhalten
     //ColorPreset.GetValues()[(int)ColorNames.CYAN]  --> Werte fuer Cyan
-    private static List<ColorPreset> GetValues()
+    public static List<ColorPreset> GetValues()
     {
         List<ColorPreset> list = new List<ColorPreset>();
 
