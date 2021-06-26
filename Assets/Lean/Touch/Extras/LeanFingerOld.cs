@@ -54,6 +54,7 @@ namespace Lean.Touch
 		protected virtual void OnEnable()
 		{
 			LeanTouch.OnFingerOld += HandleFingerOld;
+			Debug.Log("Lean Finger Old Enabled");
 		}
 
 		protected virtual void OnDisable()
@@ -87,6 +88,7 @@ namespace Lean.Touch
 			if (onWorld != null)
 			{
 				var position = ScreenDepth.Convert(finger.ScreenPosition, gameObject);
+				Debug.Log("Lean Finger Old World Position = " + position);
 
 				onWorld.Invoke(position);
 			}

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using GameControl;
 
 namespace Lean.Touch
 {
@@ -9,6 +10,7 @@ namespace Lean.Touch
 	[AddComponentMenu(LeanTouch.ComponentPathPrefix + "Select")]
 	public class LeanSelect : LeanSelectBase
 	{
+
 		public enum ReselectType
 		{
 			KeepSelected,
@@ -65,6 +67,8 @@ namespace Lean.Touch
 		/// <summary>This method allows you to manually select an object with the specified finger using this component's selection settings.</summary>
 		public void Select(LeanFinger finger, LeanSelectable selectable)
 		{
+		
+
 			// Something was selected?
 			if (selectable != null && selectable.isActiveAndEnabled == true)
 			{

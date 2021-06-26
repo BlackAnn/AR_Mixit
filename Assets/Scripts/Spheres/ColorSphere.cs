@@ -2,23 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//TO DO: divide Sphere Animation & color logic (?)
+//TO DO: divide Sphere mixng & other Logic (?)
+//TO DO: Bewegung dynamischer machen (anfangs langsam, dann schneller
+//TO DO: anstatt state, bloss bool isMixing verwenden
+
 public class ColorSphere : MonoBehaviour
 {
-    private ColorNames _colorId;
+    public enum SphereState
+    {
+        Idle,
+        IsMoving,
+        IsMixing
+    }
 
-    private bool _isMixing;
+    private GameManager _gameManager;
+    private ColorNames _colorId;
     private Vector3 _targetPosition;
     private float _movementSpeed;
-    private Animator _animator;
+    //private Animator _animator;
+    private AnimatorSynchronizer _animSynchronizer;
+    private SphereState _state;
     
-
+    
     //Instantiates a sphere
-    public static ColorSphere Create(Transform parent, ColorNames colorId)
+    public static ColorSphere Create(Transform parent, ColorNames colorId, GameManager gameManager, AnimatorSynchronizer animSync)
     {
         GameObject newObject = Instantiate(Resources.Load("Prefabs/ColorSphere"), parent, false) as GameObject;
         ColorSphere colorSphere = newObject.GetComponent<ColorSphere>();
         colorSphere.UpdateColor(colorId);
+        colorSphere.SetGameManager(gameManager);
+        colorSphere.SetAnimationSynchronizer(animSync);
+        animSync.SubscribeSphereAnimator(colorSphere.GetComponent<Animator>());
         return colorSphere;
     }
 
@@ -26,17 +40,20 @@ public class ColorSphere : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _animator = GetComponent<Animator>();
-        _isMixing = false;
+        //_animator = GetComponent<Animator>();
+        _state = SphereState.Idle;
         _targetPosition = new Vector3();
-        _movementSpeed = 0.9f;
+        _movementSpeed = 0.2f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        if (_isMixing)
+        if(_state == SphereState.IsMoving)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, _targetPosition, _movementSpeed * Time.deltaTime);
+        }
+        if (_state == SphereState.IsMixing)
         {
             //Move Sphere towards center of parent object
             transform.position = Vector3.MoveTowards(transform.position, _targetPosition, _movementSpeed * Time.deltaTime);
@@ -44,17 +61,39 @@ public class ColorSphere : MonoBehaviour
 
             if (transform.localScale.Equals(new Vector3(0, 0, 0)))
             {
-                transform.gameObject.SetActive(false);
-                _isMixing = !_isMixing;
+                //_animSynchronizer.UnsubscribeSphereAnimator(gameObject.GetComponent<Animator>());
                 Destroy(gameObject);
             }
         }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if(_state == SphereState.IsMoving && collision.gameObject.tag == "ColorSphere")
+        {
+            _gameManager.StartMixing();
+        }
+    }
+
+    protected void SetGameManager(GameManager gameManager)
+    {
+        _gameManager = gameManager;
+    }
+
+    protected void SetAnimationSynchronizer(AnimatorSynchronizer animSynch)
+    {
+        _animSynchronizer = animSynch;
     }
 
     public Vector3 GetPosition()
 	{
         return transform.position;
 	}
+
+    public ColorNames GetColorId()
+    {
+        return _colorId;
+    }
 
     public void SetPosition(Vector3 newPosition)
     {
@@ -66,9 +105,9 @@ public class ColorSphere : MonoBehaviour
         transform.parent = parent.transform;
     }
 
-    public ColorNames GetColorId()
+    public void SetTargetPosition(Vector3 targetPosition)
     {
-        return _colorId;
+        _targetPosition = targetPosition;
     }
 
     //sets color_Id and updates sphere Color
@@ -90,31 +129,19 @@ public class ColorSphere : MonoBehaviour
 
   
 
-    public void ActivateMixing(Vector3 position, GameObject parent)
+    public void ActivateMixing()
     {
-        Debug.Log("Sphere Local Position = " + transform.localPosition);
-        Debug.Log("Sphere Position = " + transform.position);
-
+     
         //_animator.SetTrigger("MixSpheres");
-        _targetPosition = position;
-        SetParent(parent);
-
-        //IsMixing activates the translation of sphere towards the center
-        //ToggleIsMixing is slightly delayed, in order to coordinate better with the rest of the "MixSpheres" animation
-        Invoke("ToggleIsMixing", 0.5f);
+        //_state = SphereState.IsMixing;
     }
 
-    private void ToggleIsMixing()
-    {
-        _isMixing = !_isMixing;
-        Debug.Log("Inside ToggleMixing)");
-    }
+   
 
-    public void SetTargetPosition(Vector3 targetPosition)
+    public void Move(Vector3 targetPosition)
     {
         _targetPosition = targetPosition;
+        _state = SphereState.IsMoving;
     }
-
-
 
 }

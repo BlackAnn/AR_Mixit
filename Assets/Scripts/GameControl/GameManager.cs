@@ -12,33 +12,38 @@ public class GameManager : MonoBehaviour
     private Dictionary<ImageTarget, ColorSphere> activeSpheres = new Dictionary<ImageTarget, ColorSphere>();
     public ResultSphere resultSphere;
     public ParentObject parentObject;
-
+    [SerializeField]private AnimatorSynchronizer animSynchronizer;
     //private bool displaySpheres;
     //private bool isMixing;
-    private State state;
+    private GameState state;
     private List<ImageTarget> currentMixingTargets;
     private List<ColorSphere> currentMixingSpheres;
     private List<Vector3> previousTargetpositions;
 
-
+    public enum GameState
+    {
+        idle,
+        showingSpheres,
+        movingSpheresTogether,
+        movingSpheresApart,
+        mixingSpheres,
+    }
 
 
     // Start is called before the first frame update
     void Start()
     {
         //displaySpheres = true;
-        state = State.DISPLAY_SPHERES;
+        state = GameState.idle;
         currentMixingTargets = new List<ImageTarget>();
         currentMixingSpheres = new List<ColorSphere>();
         previousTargetpositions = new List<Vector3>();
-
-
     }
 
     // Update is called once per frame
     void Update()
     {
-      if(state == State.MIXING)
+      if(state == GameState.mixingSpheres || state == GameState.movingSpheresTogether)
         {
             if (TargetPositionHasChanged())
             {
@@ -52,6 +57,12 @@ public class GameManager : MonoBehaviour
                 }
                 previousTargetpositions = currentMixingTargets.Select(x => x.GetPosition()).ToList();
             }
+        } else if (state == GameState.movingSpheresApart)
+        {
+            for (int i = 0; i < currentMixingSpheres.Count; i++)
+            {
+                currentMixingSpheres[i].SetTargetPosition(currentMixingTargets[i].GetPosition());
+            }
         }
     }
 
@@ -61,19 +72,19 @@ public class GameManager : MonoBehaviour
         if (!activeSpheres.ContainsKey(marker))
         {
             //only instanciate sphere if spheres are currently displaying
-            if (state == State.DISPLAY_SPHERES)
+            if (state == GameState.showingSpheres)
             {
-                Debug.Log("Subscribe Target: " + marker.colorId);
+               // Debug.Log("Subscribe Target: " + marker.colorId);
 
                 activeSpheres.Add(marker, marker.InstanciateSphere());
-                Debug.Log("Dict Length: " + activeSpheres.Count);
+                //Debug.Log("Dict Length: " + activeSpheres.Count);
 
             }
             else
             {
                 activeSpheres.Add(marker, null);
-                Debug.Log("Subscribe Target (null): " + marker.colorId);
-                Debug.Log("Dict Length: " + activeSpheres.Count);
+                //Debug.Log("Subscribe Target (null): " + marker.colorId);
+                //Debug.Log("Dict Length: " + activeSpheres.Count);
 
             }
         }
@@ -81,13 +92,12 @@ public class GameManager : MonoBehaviour
 
     }
 
- 
-
+    // TO DO: Reaktion auf unterschiedliche States
     public void UnsubscribeTarget(ImageTarget marker)
     {
         if (activeSpheres.ContainsKey(marker))
         {
-            Debug.Log("Unsubscribe Target: " + marker.colorId);
+            //Debug.Log("Unsubscribe Target: " + marker.colorId);
 
             //destroy sphere before unsubscribing the marker
             if (activeSpheres[marker] != null)
@@ -95,39 +105,82 @@ public class GameManager : MonoBehaviour
                 Destroy(activeSpheres[marker].gameObject);
             }
             activeSpheres.Remove(marker);
-            Debug.Log("Dict Length: " + activeSpheres.Count);
+            //Debug.Log("Dict Length: " + activeSpheres.Count);
 
         }
+
+        //if state = mixing ?
+        //if state = moving together?
+        //if state = moving apart?
+    }
+
+    public void ActivateUserInteraction()
+    {
+        state = GameState.showingSpheres;
     }
 
     
+
+    public void MoveSpheresTogether()
+    {
+        if( state == GameState.showingSpheres || state == GameState.movingSpheresApart)
+        {
+            if (activeSpheres.Count == 2)
+            {
+                state = GameState.movingSpheresTogether;
+                currentMixingSpheres = new List<ColorSphere>(activeSpheres.Values);
+                currentMixingTargets = new List<ImageTarget>(activeSpheres.Keys);
+                previousTargetpositions = currentMixingTargets.Select(x => x.GetPosition()).ToList();
+
+                Vector3 resultPosition = CalculateMidpointPosition(currentMixingSpheres[0], currentMixingSpheres[1]);
+
+                foreach (ColorSphere sphere in currentMixingSpheres)
+                {
+                    //sphere.SetParent(parentObject.gameObject);
+                    sphere.Move(resultPosition); 
+                }
+            }
+        }
+    }
+
+    public void MoveSpheresApart()
+    {
+        if (state == GameState.movingSpheresTogether)
+        {
+            if (activeSpheres.Count == 2)
+            {
+                state = GameState.movingSpheresApart;
+                for(int i = 0; i<currentMixingSpheres.Count; i++)
+                {
+                    //currentMixingSpheres[i].SetParent(currentMixingTargets[i].gameObject);
+                    currentMixingSpheres[i].Move(currentMixingTargets[i].GetPosition());
+                }      
+            }
+        }
+    }
+
     //TO DO: Restrict max distance between the spheres (before mixing)
-    public void MixColors()
+    public void StartMixing()
     {
    
         //Mix only if there are two targets detected
-        if (activeSpheres.Count == 2)
+        if (currentMixingSpheres.Count == 2)
         {
-            //once Mixing starts, no new spheres will be displayed
-            //displaySpheres = false;
-            state = State.MIXING;
-
-            currentMixingSpheres = new List<ColorSphere>(activeSpheres.Values);
-            currentMixingTargets = new List<ImageTarget>(activeSpheres.Keys);
-            previousTargetpositions = currentMixingTargets.Select(x => x.GetPosition()).ToList();
-
-            Vector3 resultPosition = CalculateMidpointPosition(currentMixingSpheres[0], currentMixingSpheres[1]);
-            parentObject.SetPosition(resultPosition);
-
+            state = GameState.mixingSpheres;
             Color resultColor = GenerateMixedColor(currentMixingSpheres[0], currentMixingSpheres[1]);
-
-            //activate Mixing Animation
             foreach (ColorSphere sphere in currentMixingSpheres)
             {
-                sphere.ActivateMixing(resultPosition, parentObject.gameObject);
+                sphere.SetParent(parentObject.gameObject);
             }
-            parentObject.ActivateMixing();
-            resultSphere.ShowSphere(resultColor, resultPosition);
+
+            animSynchronizer.ActivateMixingAnimation();
+            /*parentObject.ActivateMixing();
+            foreach (ColorSphere sphere in currentMixingSpheres)
+            {
+                sphere.ActivateMixing();
+            }
+
+            resultSphere.ShowSphere(resultColor);*/
         }
         else
         {
@@ -135,6 +188,8 @@ public class GameManager : MonoBehaviour
             //TO DO: add UI user info here
         }
     }
+
+
 
    
     private Vector3 CalculateMidpointPosition(ColorSphere sphere1, ColorSphere sphere2)
@@ -159,7 +214,7 @@ public class GameManager : MonoBehaviour
     public void Reset()
     {
         //displaySpheres = true;
-        state = State.DISPLAY_SPHERES;
+        state = GameState.showingSpheres;
 
         resultSphere.Reset();
 

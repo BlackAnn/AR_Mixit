@@ -5,7 +5,9 @@ using UnityEngine;
 public class ImageTarget : MonoBehaviour
 {
     //public GameObject sphere;
-    public ColorNames colorId;
+    [SerializeField] private ColorNames colorId;
+    [SerializeField]private GameManager gameManager;
+    [SerializeField] private AnimatorSynchronizer animSynchronizer;
 
 
     public ColorSphere InstanciateSphere()
@@ -13,7 +15,7 @@ public class ImageTarget : MonoBehaviour
         //Instantiate new Sphere if no sphere exists yet
         if (transform.Find("ColorSphere(Clone)") == null)
         {
-           return ColorSphere.Create(transform, colorId);
+           return ColorSphere.Create(transform, colorId, gameManager, animSynchronizer);
         }
         return null;
 
