@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using GameControl;
 
 namespace Lean.Touch
 {

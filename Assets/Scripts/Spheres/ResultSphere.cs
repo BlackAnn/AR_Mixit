@@ -19,7 +19,7 @@ public class ResultSphere : MonoBehaviour
         transform.gameObject.SetActive(true);
         SetMaterialColor(color);
    
-        _animator.SetTrigger("ShowResultSphere");
+        //_animator.SetTrigger("ShowResultSphere");
     }
 
     private void SetMaterialColor(Color color)
@@ -39,7 +39,6 @@ public class ResultSphere : MonoBehaviour
     {
         transform.gameObject.SetActive(false);
         transform.localScale = _initialScale;
-
     }
 
 
