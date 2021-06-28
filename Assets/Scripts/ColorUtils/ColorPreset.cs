@@ -43,6 +43,10 @@ public class ColorPreset
         this.mixable = mixable;
     }
 
+    public ColorNames GetID() {
+        return id;
+    }
+
     public bool GetMixable() {
         return mixable;
     }

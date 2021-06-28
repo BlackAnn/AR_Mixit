@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ public class QuizManager : MonoBehaviour {
     [SerializeField] private GameManager gameManager;
     private ColorNames[] randomColors;
 
+    List<ColorNames> cNames;
     List<ColorPreset> cList;
     private int quizStep;
 
@@ -21,7 +23,6 @@ public class QuizManager : MonoBehaviour {
     void Start() {
     }
 
-    void Update() {
         //GameObject.Find("ColorToMixImageSmall").GetComponent<Image>().color = GameObject.Find("ColorToMixImage").GetComponent<Image>().color;
         /* if (GameModeController.gameMode.Equals("Quiz")) {
           if (MIXEVENT?) {
@@ -35,11 +36,10 @@ public class QuizManager : MonoBehaviour {
           }
           }
          */
-    }
 
-    /* public bool CheckColor() {
+    /*public bool CheckColor() {
        GameObject resultTxt = GameObject.Find("QuizModeResultText");
-         if (ColorToMixImg.GetComponent<Image>().color == /*current mixed color )
+         if (QuizUIController.colorToMixImg.GetComponent<Image>().color == current mixed color )
              resultTxt.GetComponent<TextMeshProUGUI>().text = "Richtig!";
              return true;
          else {
@@ -79,16 +79,13 @@ public class QuizManager : MonoBehaviour {
     }
 
     public void CreateColorArray() {
-        int i = 0;
-        randomColors = new ColorNames[20];
+        cNames = new List<ColorNames>();
         cList = new List<ColorPreset>();
         cList = ColorPreset.GetValues();
 
-        while (i < 20) {
-            ColorNames colorName = (ColorNames)Random.Range(0, 13);
-            if (cList[(int)colorName].GetMixable()) {
-                randomColors[i] = colorName;
-                i++;
+        for (int j = 0; j < cList.Count; j++) {
+            if (cList[(int)j].GetMixable()) {
+                cNames.Add(cList[j].GetID());
             }
         }
     }
@@ -97,6 +94,4 @@ public class QuizManager : MonoBehaviour {
     public void EvaluateResult(Color resultColor) {
         Debug.Log("EVALUATE RESULT, color = " + resultColor);
     }
-
-
 }

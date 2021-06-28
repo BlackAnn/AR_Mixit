@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class QuizUIController : MonoBehaviour {
-    private Image colorToMixImg;
+    public Image colorToMixImg;
     private Image colorToMixImgSmall;
 
     // Start is called before the first frame update
