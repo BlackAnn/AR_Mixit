@@ -7,7 +7,7 @@ public class AnimatorSynchronizer : MonoBehaviour
 
     private bool _activateMixing = false;
     private List <Animator> _sphereAnimators = new List<Animator>();
-    [SerializeField]private Animator _parentAnimator;
+    //[SerializeField]private Animator _parentAnimator;
     [SerializeField] private Animator _resultAnimator;
 
     // Start is called before the first frame update
@@ -22,7 +22,7 @@ public class AnimatorSynchronizer : MonoBehaviour
         if (_activateMixing)
         {
             Debug.Log("ANIMATE MIXING-----------");
-            _parentAnimator.Play("Spheres_Rotating", 0, 0);
+           // _parentAnimator.Play("Spheres_Rotating", 0, 0);
 
             foreach (Animator anim in _sphereAnimators)
             {

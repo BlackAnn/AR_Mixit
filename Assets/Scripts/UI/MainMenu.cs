@@ -13,8 +13,8 @@ public class MainMenu : MonoBehaviour {
     public GameObject MainMenuUI;
     public GameObject OptionsUI;
 
-    public GameObject ModeTitle;
-    public GameObject ModeHelpText;
+    //public GameObject ModeTitle;
+    //public GameObject ModeHelpText;
 
     public void PlayGame(string modeInput) {
         SceneManager.LoadScene(1);
@@ -32,7 +32,7 @@ public class MainMenu : MonoBehaviour {
     }
 
     public void CheckMenuOption() {
-        if (GameModeController.menuMode.Equals("Options")) {
+       if (GameModeController.menuMode.Equals("Options")) {
             GameModeController.previousWindow = GameModeController.gameMode;
             MainMenuUI.SetActive(false);
             OptionsUI.SetActive(true);
@@ -70,7 +70,7 @@ public class MainMenu : MonoBehaviour {
     public void setHelpPage() {
         switch (GameModeController.gameMode) {
             case "Learn":
-                ModeTitle.GetComponent<TextMeshProUGUI>().text = "";
+                //ModeTitle.GetComponent<TextMeshProUGUI>().text = "";
                 break;
             case "Quiz":
 

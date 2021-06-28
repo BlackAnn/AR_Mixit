@@ -15,25 +15,29 @@ public class ColorSphere : MonoBehaviour
         IsMixing
     }
 
-    private GameManager _gameManager;
+    private MixingController _mixingController;
     private ColorNames _colorId;
     private Vector3 _targetPosition;
     private float _movementSpeed;
-    //private Animator _animator;
     private AnimatorSynchronizer _animSynchronizer;
     private SphereState _state;
     
     
     //Instantiates a sphere
-    public static ColorSphere Create(Transform parent, ColorNames colorId, GameManager gameManager, AnimatorSynchronizer animSync)
+    public static ColorSphere Create(Transform parent, ColorNames colorId, MixingController mixingController, AnimatorSynchronizer animSync)
     {
         GameObject newObject = Instantiate(Resources.Load("Prefabs/ColorSphere"), parent, false) as GameObject;
         ColorSphere colorSphere = newObject.GetComponent<ColorSphere>();
         colorSphere.UpdateColor(colorId);
-        colorSphere.SetGameManager(gameManager);
+        colorSphere.SetMixingController(mixingController);
         colorSphere.SetAnimationSynchronizer(animSync);
         animSync.SubscribeSphereAnimator(colorSphere.GetComponent<Animator>());
         return colorSphere;
+    }
+
+    void OnDestroy()
+    {
+        _animSynchronizer.UnsubscribeSphereAnimator(gameObject.GetComponent<Animator>());
     }
 
 
@@ -52,18 +56,7 @@ public class ColorSphere : MonoBehaviour
         if(_state == SphereState.IsMoving)
         {
             transform.position = Vector3.MoveTowards(transform.position, _targetPosition, _movementSpeed * Time.deltaTime);
-        }
-        if (_state == SphereState.IsMixing)
-        {
-            //Move Sphere towards center of parent object
-            transform.position = Vector3.MoveTowards(transform.position, _targetPosition, _movementSpeed * Time.deltaTime);
-            //transform.localScale = Vector3.MoveTowards(transform.localScale, new Vector3(0, 0, 0), _movementSpeed * Time.deltaTime);
-
-            if (transform.localScale.Equals(new Vector3(0, 0, 0)))
-            {
-                //_animSynchronizer.UnsubscribeSphereAnimator(gameObject.GetComponent<Animator>());
-                Destroy(gameObject);
-            }
+           
         }
     }
 
@@ -71,13 +64,13 @@ public class ColorSphere : MonoBehaviour
     {
         if(_state == SphereState.IsMoving && collision.gameObject.tag == "ColorSphere")
         {
-            _gameManager.StartMixing();
+            _mixingController.StartMixing();
         }
     }
 
-    protected void SetGameManager(GameManager gameManager)
+    protected void SetMixingController(MixingController mixingController)
     {
-        _gameManager = gameManager;
+        _mixingController = mixingController;
     }
 
     protected void SetAnimationSynchronizer(AnimatorSynchronizer animSynch)
@@ -89,6 +82,13 @@ public class ColorSphere : MonoBehaviour
 	{
         return transform.position;
 	}
+
+    public Vector3 GetSize()
+    {
+        return transform.localScale;
+    }
+
+
 
     public ColorNames GetColorId()
     {
@@ -127,20 +127,17 @@ public class ColorSphere : MonoBehaviour
         //GetComponent<Renderer>().material.color = color;
     }
 
-  
 
-    public void ActivateMixing()
+    public void IsMixing()
     {
-     
-        //_animator.SetTrigger("MixSpheres");
-        //_state = SphereState.IsMixing;
+        _state = SphereState.IsMixing;
     }
 
-   
 
-    public void Move(Vector3 targetPosition)
+    public void Move(Vector3 targetPosition, float speed)
     {
         _targetPosition = targetPosition;
+        _movementSpeed = speed;
         _state = SphereState.IsMoving;
     }
 
