@@ -1334,10 +1334,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbc2b8649ffd5164dad161b04a85079b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quizUI: {fileID: 472590950}
+  quizUIController: {fileID: 0}
   gameManager: {fileID: 790292305}
-  randomColors: 
-  quizStep: 0
 --- !u!1 &461353410
 GameObject:
   m_ObjectHideFlags: 0
@@ -3388,10 +3386,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbc2b8649ffd5164dad161b04a85079b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quizUI: {fileID: 0}
+  quizUIController: {fileID: 0}
   gameManager: {fileID: 0}
-  randomColors: 
-  quizStep: 0
 --- !u!1 &1090499353
 GameObject:
   m_ObjectHideFlags: 0
@@ -4521,7 +4517,7 @@ GameObject:
   - component: {fileID: 1403337658}
   - component: {fileID: 1403337657}
   m_Layer: 5
-  m_Name: HelpText
+  m_Name: LearnHelpText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4735,7 +4731,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8097940ac66a34dbca7ff509fc691ee4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _parentAnimator: {fileID: 142743769}
   _resultAnimator: {fileID: 780716519}
 --- !u!1 &1479688123
 GameObject:
@@ -4749,7 +4744,7 @@ GameObject:
   - component: {fileID: 1479688126}
   - component: {fileID: 1479688125}
   m_Layer: 5
-  m_Name: HelpText
+  m_Name: QuizHelpText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

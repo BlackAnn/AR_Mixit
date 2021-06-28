@@ -2,34 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIController : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+public class UIController : MonoBehaviour {
+
+    private GameObject learnModeTxt;
+
+    void Start() {
+        learnModeTxt = GameObject.Find("LearnHelpText");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public void Show() {
+        Debug.Log("GAMEMODE: " + GameModeController.gameMode);
 
-    public void Show()
-    {
+        GameModeController.previousWindow = GameModeController.gameMode;
         gameObject.SetActive(true);
-        GameObject helpTxT = GameObject.Find("HelpText");
-        StartCoroutine(RemoveAfterSeconds(5, helpTxT));
+        StartCoroutine(RemoveAfterSeconds(5, learnModeTxt));
     }
 
-    public void Hide()
-    {
+    public void Hide() {
         gameObject.SetActive(false);
     }
 
-    IEnumerator RemoveAfterSeconds(int seconds, GameObject obj)
-    {
+    IEnumerator RemoveAfterSeconds(int seconds, GameObject obj) {
         yield return new WaitForSeconds(seconds);
         obj.SetActive(false);
     }

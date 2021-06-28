@@ -44,9 +44,9 @@ public class GameManager : MonoBehaviour
         {
             _mode = GameMode.Quiz;
             _state = GameState.Idle;
-            learnModeUI.Show();
-            quizModeUI.Hide();
-            quizManager.Setup();
+            learnModeUI.Hide();
+            quizModeUI.Show();
+            quizManager.SetupGame();
          
         }
         else // Delete?

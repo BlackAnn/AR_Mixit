@@ -13,8 +13,11 @@ public class MainMenu : MonoBehaviour {
     public GameObject MainMenuUI;
     public GameObject OptionsUI;
 
-    //public GameObject ModeTitle;
-    //public GameObject ModeHelpText;
+    public GameObject ModeTitle;
+    public GameObject ModeHelpText;
+
+    private string learnModeTxt = "this is a learn help text";
+    private string quizModeTxt = "this is a quiz help text";
 
     public void PlayGame(string modeInput) {
         SceneManager.LoadScene(1);
@@ -32,7 +35,7 @@ public class MainMenu : MonoBehaviour {
     }
 
     public void CheckMenuOption() {
-       if (GameModeController.menuMode.Equals("Options")) {
+        if (GameModeController.menuMode.Equals("Options")) {
             GameModeController.previousWindow = GameModeController.gameMode;
             MainMenuUI.SetActive(false);
             OptionsUI.SetActive(true);
@@ -68,12 +71,13 @@ public class MainMenu : MonoBehaviour {
     }
 
     public void setHelpPage() {
+        ModeTitle.GetComponent<TextMeshProUGUI>().text = GameModeController.gameMode+"-Modus";
         switch (GameModeController.gameMode) {
             case "Learn":
-                //ModeTitle.GetComponent<TextMeshProUGUI>().text = "";
+                ModeHelpText.GetComponent<TextMeshProUGUI>().text = learnModeTxt;
                 break;
             case "Quiz":
-
+                ModeHelpText.GetComponent<TextMeshProUGUI>().text = quizModeTxt;
                 break;
         }
     }

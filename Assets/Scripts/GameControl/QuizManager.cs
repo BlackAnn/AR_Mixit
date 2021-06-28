@@ -7,19 +7,18 @@ using UnityEngine.UI;
 //@Anna in der QuizUIController kannst du die ganzen Methoden schreiben, die die UI verändern und diese dann dann hier (mit quizUI) aufrufen
 public class QuizManager : MonoBehaviour {
 
-    [SerializeField]private QuizUIController quizUI;
+    [SerializeField] private QuizUIController quizUIController;
     [SerializeField] private GameManager gameManager;
-    public ColorNames[] randomColors;
+    private ColorNames[] randomColors;
 
     List<ColorPreset> cList;
-    public int quizStep;
+    private int quizStep;
 
- 
+    private GameObject quizModeUI;
+
+
     // Start is called before the first frame update
     void Start() {
-            quizStep = 0;
-            CreateColorArray();
-            
     }
 
     void Update() {
@@ -50,28 +49,29 @@ public class QuizManager : MonoBehaviour {
      }*/
 
     //setup for quiz-mode
-    public void Setup()
-    {
-        quizUI.SetColorToMixImage(cList[(int)randomColors[0]].GetColor());
-
+    public void SetupGame() {
+        quizStep = 0;
+        CreateColorArray();
+        quizUIController.SetColorToMixImage(cList[(int)randomColors[0]].GetColor());
     }
 
     //Methode, die die Nutzer-Interaktion fuer das Spiel beginnen laesst
-    public void StartGame()
-    {
+    public void StartGame() {
         gameManager.ActivateUserInteraction();
     }
 
-    public void playGame() {
+    public void PlayGame() {
         //GameObject.Find("QuizModePromptText").gameObject.SetActive(true);
     }
 
-    public bool continueGame() {
+    public bool ContinueGame() {
         if (quizStep <= 19) {
             quizStep++;
-            quizUI.SetColorToMixImage(cList[(int)randomColors[quizStep]].GetColor());
+            quizUIController.SetColorToMixImage(cList[(int)randomColors[quizStep]].GetColor());
+            return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     public void ShowColorInfo() {
@@ -83,7 +83,6 @@ public class QuizManager : MonoBehaviour {
         randomColors = new ColorNames[20];
         cList = new List<ColorPreset>();
         cList = ColorPreset.GetValues();
-        Debug.Log("lenght:" + randomColors.Length);
 
         while (i < 20) {
             ColorNames colorName = (ColorNames)Random.Range(0, 13);
@@ -92,14 +91,12 @@ public class QuizManager : MonoBehaviour {
                 i++;
             }
         }
-        Debug.Log(randomColors);
     }
 
     //DUMMY_METHODE: Methode, die aufgerufen wird, wenn fertig gemischt wurde
-    public void EvaluateResult(Color resultColor)
-    {
+    public void EvaluateResult(Color resultColor) {
         Debug.Log("EVALUATE RESULT, color = " + resultColor);
     }
 
-    
+
 }
