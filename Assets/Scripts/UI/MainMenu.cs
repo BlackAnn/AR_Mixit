@@ -19,11 +19,20 @@ public class MainMenu : MonoBehaviour {
     private string learnModeTxt = "Halte 2 Karten vor die Kamera.\nMische die Farbbaelle indem du mit dem Finger zwischen ihnen hin und her steichst.";
     private string quizModeTxt = "Schau dir an welche Farbe gemischt werden soll.\nWaehle 2 Karten aus und halte sie vor die Kamera.\nMische die Farbbaelle indem du mit dem Finger zwischen ihnen hin und her steichst.\nOb du richtig lagst erfaehrst du danach!";
 
+    void Start() {
+        CheckMenuOption();
+        CheckModeOptions();
+
+        setHelpPage();
+    }
+
+    //method to change into GameMode scene
     public void PlayGame(string modeInput) {
         SceneManager.LoadScene(1);
         GameModeController.gameMode = modeInput;
     }
 
+    //method to check what button to show in options menu
     public void CheckModeOptions() {
         if (GameModeController.gameMode.Equals("Learn")) {
             LearnModeButton.SetActive(false);
@@ -34,6 +43,7 @@ public class MainMenu : MonoBehaviour {
         }
     }
 
+    //method to control where you go when going back from the options menu
     public void CheckMenuOption() {
         if (GameModeController.menuMode.Equals("Options")) {
             GameModeController.previousWindow = GameModeController.gameMode;
@@ -45,16 +55,19 @@ public class MainMenu : MonoBehaviour {
         }
     }
 
+    //go to main menu
     public void GoToMainMenu() {
         SceneManager.LoadScene(0);
     }
 
+    //go to options menu
     public void GoToOptions() {
         GameModeController.previousWindow = "MainMenu";
         MainMenuUI.SetActive(false);
         OptionsUI.SetActive(true);
     }
 
+    //go back to previous window from options
     public void GoBack() {
         switch (GameModeController.previousWindow) {
             case "MainMenu":
@@ -70,6 +83,7 @@ public class MainMenu : MonoBehaviour {
         }
     }
 
+    //sets help page according to active game mode
     public void setHelpPage() {
         ModeTitle.GetComponent<TextMeshProUGUI>().text = GameModeController.gameMode+"-Modus";
         switch (GameModeController.gameMode) {
@@ -82,15 +96,9 @@ public class MainMenu : MonoBehaviour {
         }
     }
 
+    // quit app
     public void QuitApplication() {
         Debug.Log("quitting app");
         Application.Quit();
-    }
-
-    void Start() {
-        CheckMenuOption();
-        CheckModeOptions();
-
-        setHelpPage();
     }
 }

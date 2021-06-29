@@ -16,18 +16,19 @@ public class QuizManager : MonoBehaviour {
     private Color currentColor;
 
 
-    //setup for quiz-modehel
+    //setup for quiz-mode
     public void SetupGame() {
         CreateColorList();
         quizUIController.SetColorToMixImage(GetRandomColor());
         quizUIController.Show();
     }
 
-    //Methode, die die Nutzer-Interaktion fuer das Spiel beginnen laesst
+    //starts user-interaction with the game
     public void StartGame() {
         gameManager.ActivateUserInteraction();
     }
 
+    //method to continue the game after mixing a color
     public void ContinueGame() {
         if (cNames.Count <= 0) {
             CreateColorList();
@@ -37,6 +38,7 @@ public class QuizManager : MonoBehaviour {
         quizUIController.SetColorToMixImage(GetRandomColor());
     }
 
+    //picks a random color out of the color list
     public Color GetRandomColor() {
         int rnd = Random.Range(0, cNames.Count);
         Color rndColor = cNames[rnd];
@@ -44,6 +46,7 @@ public class QuizManager : MonoBehaviour {
         return rndColor;
     }
 
+    //generates a color list with mixable colors
     public void CreateColorList() {
         cNames = new List<Color>();
         cList = new List<ColorPreset>();
@@ -56,7 +59,7 @@ public class QuizManager : MonoBehaviour {
         }
     }
 
-    //DUMMY_METHODE: Methode, die aufgerufen wird, wenn fertig gemischt wurde
+    //gets called when a color was mixed
     public void EvaluateResult(Color resultColor) {
         bool result;
         currentColor = quizUIController.GetColorToMixImageColor();
@@ -68,8 +71,4 @@ public class QuizManager : MonoBehaviour {
         }
         quizUIController.ShowMixResult(result, ColorPreset.GetDisplayNameByColor(currentColor), ColorPreset.GetDisplayNameByColor(resultColor));
     }
-
- 
-
-  
 }
