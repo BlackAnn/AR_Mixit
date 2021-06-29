@@ -16,8 +16,8 @@ public class MainMenu : MonoBehaviour {
     public GameObject ModeTitle;
     public GameObject ModeHelpText;
 
-    private string learnModeTxt = "this is a learn help text";
-    private string quizModeTxt = "this is a quiz help text";
+    private string learnModeTxt = "Halte 2 Karten vor die Kamera. Mische die Farbbälle indem du mit dem Finger zwischen ihnen hin und her steichst.";
+    private string quizModeTxt = "Schau dir an welche Farbe gemischt werden soll. Wähle 2 Karten aus und halte sie vor die Kamera. Mische die Farbbälle indem du mit dem Finger zwischen ihnen hin und her steichst. Ob du richtig lagst erfährst du danach!";
 
     public void PlayGame(string modeInput) {
         SceneManager.LoadScene(1);

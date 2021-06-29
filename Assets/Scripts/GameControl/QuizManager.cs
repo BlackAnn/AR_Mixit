@@ -10,49 +10,22 @@ public class QuizManager : MonoBehaviour {
 
     [SerializeField] private QuizUIController quizUIController;
     [SerializeField] private GameManager gameManager;
-    private ColorNames[] randomColors;
 
-    List<ColorNames> cNames;
+    List<Color> cNames;
     List<ColorPreset> cList;
-    private int quizStep;
+
+    private Image colorToMixImg;
 
     private GameObject quizModeUI;
 
-
     // Start is called before the first frame update
     void Start() {
+        colorToMixImg = GameObject.Find("ColorToMixImage").GetComponent<Image>();
     }
-
-        //GameObject.Find("ColorToMixImageSmall").GetComponent<Image>().color = GameObject.Find("ColorToMixImage").GetComponent<Image>().color;
-        /* if (GameModeController.gameMode.Equals("Quiz")) {
-          if (MIXEVENT?) {
-          CheckColor();
-           resultTxt.setActive();
-           GameObject.Find("QuizNextButton").setActive();
-           GameObject.Find("ColorToMixImageSmall").setActive(false);
-            if (continueGame) {
-            GameObject.Find("QuizModePromptText").setActive();
-            GameObject.Find("ColorToMixImage").setActive();
-          }
-          }
-         */
-
-    /*public bool CheckColor() {
-       GameObject resultTxt = GameObject.Find("QuizModeResultText");
-         if (QuizUIController.colorToMixImg.GetComponent<Image>().color == current mixed color )
-             resultTxt.GetComponent<TextMeshProUGUI>().text = "Richtig!";
-             return true;
-         else {
-             resultTxt.GetComponent<TextMeshProUGUI>().text = "Falsch";
-             return false;
-         }
-     }*/
 
     //setup for quiz-mode
     public void SetupGame() {
-        quizStep = 0;
-        CreateColorArray();
-        quizUIController.SetColorToMixImage(cList[(int)randomColors[0]].GetColor());
+        CreateColorList();
     }
 
     //Methode, die die Nutzer-Interaktion fuer das Spiel beginnen laesst
@@ -60,38 +33,46 @@ public class QuizManager : MonoBehaviour {
         gameManager.ActivateUserInteraction();
     }
 
-    public void PlayGame() {
-        //GameObject.Find("QuizModePromptText").gameObject.SetActive(true);
-    }
-
-    public bool ContinueGame() {
-        if (quizStep <= 19) {
-            quizStep++;
-            quizUIController.SetColorToMixImage(cList[(int)randomColors[quizStep]].GetColor());
-            return true;
-        } else {
-            return false;
+    public void ContinueGame() {
+        if (cNames.Count <= 0) {
+            CreateColorList();
         }
+        quizUIController.SetColorToMixImage(GetRandomColor());
     }
 
-    public void ShowColorInfo() {
+    public Color GetRandomColor() {
+        int rnd = Random.Range(0, cNames.Count);
+        Color rndColor = cNames[rnd];
+        cNames.Remove(rndColor);
 
+        return rndColor;
     }
 
-    public void CreateColorArray() {
-        cNames = new List<ColorNames>();
+    public void CreateColorList() {
+        cNames = new List<Color>();
         cList = new List<ColorPreset>();
         cList = ColorPreset.GetValues();
 
         for (int j = 0; j < cList.Count; j++) {
             if (cList[(int)j].GetMixable()) {
-                cNames.Add(cList[j].GetID());
+                cNames.Add(cList[j].GetColor());
             }
         }
     }
 
     //DUMMY_METHODE: Methode, die aufgerufen wird, wenn fertig gemischt wurde
     public void EvaluateResult(Color resultColor) {
+        bool result;
+        Color currentColor = colorToMixImg.GetComponent<Image>().color;
+
+        if (currentColor == resultColor) {
+            result = true;
+        } else {
+            result = false;
+        }
+
+        quizUIController.ShowMixResult(result);
+
         Debug.Log("EVALUATE RESULT, color = " + resultColor);
     }
 }
