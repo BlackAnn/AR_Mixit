@@ -5,44 +5,20 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class QuizUIController : MonoBehaviour {
-    [SerializeField]private Image colorToMixImg;
+    [SerializeField] private Image colorToMixImg;
     [SerializeField] private Image colorToMixImgSmall;
     [SerializeField] private TextMeshProUGUI resultTxt;
+    [SerializeField] private TextMeshProUGUI tippTxt;
     [SerializeField] private GameObject continueButton;
+    [SerializeField] private GameObject tryAgainButton;
+    [SerializeField] private GameObject tippButton;
 
-    // Start is called before the first frame update
-    void Start() {
-
-        //colorToMixImg = GameObject.Find("ColorToMixImage").GetComponent<Image>();
-        //colorToMixImgSmall = GameObject.Find("QuizModePromptTextSmall/ColorToMixImageSmall").GetComponent<Image>();
-        //resultTxt = GameObject.Find("QuizModeResultText").GetComponent<TextMeshProUGUI>();
-        //continueButton = GameObject.Find("QuizNextButton");
-        //GameObject.Find("QuizModePromptTextSmall").gameObject.SetActive(false);
-        //resultTxt.gameObject.SetActive(false);
-        //continueButton.gameObject.SetActive(false);
-    }
-
-    public void Show()
-    {
+    public void Show() {
         gameObject.SetActive(true);
     }
 
-    public void Hide()
-    {
+    public void Hide() {
         gameObject.SetActive(false);
-    }
-
-
-    public void ShowMixResult(bool result) {
-        
-        if (result)
-            resultTxt.text = "Richtig!";
-        else {
-            resultTxt.text = "Falsch";
-        }
-        resultTxt.gameObject.SetActive(true);
-
-        continueButton.SetActive(true);
     }
 
     public void SetColorToMixImage(Color color) {
@@ -50,9 +26,25 @@ public class QuizUIController : MonoBehaviour {
         colorToMixImgSmall.color = colorToMixImg.color;
     }
 
-    public Color GetColorToMixImageColor()
-    {
-      
+    public Color GetColorToMixImageColor() {
+
         return colorToMixImg.color;
+    }
+
+    public void ShowMixResult(bool result, string correctColor,string mixedColor) {
+        if (result) {
+            resultTxt.text = "Richtig!";
+            resultTxt.color = Color.green;
+            tippTxt.text = "Richtige Farbe: " + mixedColor;
+        } else {
+            resultTxt.text = "Falsch!";
+            resultTxt.color = Color.red;
+            tippTxt.text = "Gemischte Farbe: " + mixedColor + "\nRichtige Farbe: " + correctColor;
+            tryAgainButton.SetActive(true);
+        }
+
+        tippButton.SetActive(true);
+        resultTxt.gameObject.SetActive(true);
+        continueButton.SetActive(true);
     }
 }

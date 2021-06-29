@@ -43,6 +43,10 @@ public class ColorPreset
         this.mixable = mixable;
     }
 
+    public string GetDisplayName() {
+        return displayName;
+    }
+
     public ColorNames GetID() {
         return id;
     }
