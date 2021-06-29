@@ -90,6 +90,7 @@ public class GameManager : MonoBehaviour
 
     public void GoToMainMenu()
     {
+        Debug.Log("GotToMainMenu");
         GameModeController.menuMode = "Options";
         SceneManager.LoadScene(0);
     }
