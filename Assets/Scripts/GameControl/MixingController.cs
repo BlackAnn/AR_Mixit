@@ -3,20 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Manages the sphere interaction (moving together & apart), the sphere mixing and the display of the result sphere
+/// </summary>
 public class MixingController : MonoBehaviour
 {
-    [SerializeField] private  GameManager gameManager;
-    [SerializeField] private ResultSphere resultSphere;
-    [SerializeField] private ParentObject parentObject;
-    [SerializeField] private AnimatorSynchronizer animSynchronizer;
+    [SerializeField] private GameManager _gameManager;
+    [SerializeField] private ResultSphere _resultSphere;
+    [SerializeField] private ParentObject _parentObject;
+    [SerializeField] private AnimatorSynchronizer _animSynchronizer;
 
-    private MixingState state;
+    private MixingState _state;
     private List<ImageTarget> _imageTargets = new List<ImageTarget>();
     private List<ColorSphere> _colorSpheres = new List<ColorSphere>();
-    private List<Vector3> previousImageTargetPos = new List<Vector3>();
+    private List<Vector3> _previousImageTargetPos = new List<Vector3>();
     private Color _resultColor = Color.black;
     private float _sphereMovementSpeed = 0.5f;
 
+    /// <summary>
+    /// States that will be used to manage the sphere mixing.
+    /// </summary>
     public enum MixingState
     {
         Idle,
@@ -24,48 +30,43 @@ public class MixingController : MonoBehaviour
         MovingApart,
         Mixing,
         ShowingResultSphere
-  
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        state = MixingState.Idle;
+        _state = MixingState.Idle;
     }
 
-    // Update is called once per frame
-    // TO DO: check if position is default position => state = Idle
-    // !! adjust sphere position (to initial position)
+    //Updates the spheres' position and movement according to its state
     void Update()
     {
-        //if image targets have moved
-        if (state != MixingState.Idle)
+        if (_state != MixingState.Idle)
         {
             if (_imageTargets.Count == 1)
             {
-                state = MixingState.MovingApart;
-            } else if(_imageTargets.Count == 0)
+                _state = MixingState.MovingApart;
+            }
+            else if (_imageTargets.Count == 0)
             {
-                state = MixingState.Idle;
+                _state = MixingState.Idle;
             }
 
             //if (TargetPositionHasChanged())
 
-            if (state == MixingState.MovingApart)
+            if (_state == MixingState.MovingApart)
             {
                 for (int i = 0; i < _colorSpheres.Count; i++)
                 {
                     Vector3 targetPosition = _imageTargets[i].GetPosition();
-                    //targetPosition.y += 0.03f;
                     _colorSpheres[i].SetTargetPosition(targetPosition);
                 }
             }
-            else if (state == MixingState.ShowingResultSphere)
+            else if (_state == MixingState.ShowingResultSphere)
             {
                 Vector3 resultPosition = CalculateMidpointPosition(_imageTargets[0].GetPosition(), _imageTargets[1].GetPosition());
-                resultSphere.SetPosition(resultPosition);
+                _resultSphere.SetPosition(resultPosition);
             }
-            else if (state == MixingState.MovingTogether || state == MixingState.Mixing)
+            else if (_state == MixingState.MovingTogether || _state == MixingState.Mixing)
             {
                 if (_imageTargets.Count == 2 && _colorSpheres.Count == 2)
                 {
@@ -74,27 +75,29 @@ public class MixingController : MonoBehaviour
                     {
                         sphere.SetTargetPosition(resultPosition);
                     }
-                    parentObject.SetPosition(resultPosition);
+                    _parentObject.SetPosition(resultPosition);
 
 
-                    if (state == MixingState.Mixing)
+                    if (_state == MixingState.Mixing)
                     {
-                        resultSphere.SetPosition(resultPosition);
+                        _resultSphere.SetPosition(resultPosition);
                         if (_colorSpheres[0].GetSize().Equals(new Vector3(0, 0, 0)))
                         {
-                            state = MixingState.ShowingResultSphere;
-                            Debug.Log("state = " + state);
+                            _state = MixingState.ShowingResultSphere;
+                            Debug.Log("state = " + _state);
                             MixingHasFinished();
                         }
                     }
-                    previousImageTargetPos = _imageTargets.Select(x => x.GetPosition()).ToList();
+                    _previousImageTargetPos = _imageTargets.Select(x => x.GetPosition()).ToList();
                 }
             }
-
-               
         }
     }
 
+    /// <summary>
+    /// Updates the image target list and the sphere list, based on a given ImageTarget list. Only image targets which have a sphere child will be saved.
+    /// </summary>
+    /// <param name="imageTargets">list on which the new update is based</param>
     public void UpdateLists(List<ImageTarget> imageTargets)
     {
         _imageTargets = new List<ImageTarget>();
@@ -110,88 +113,113 @@ public class MixingController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Activate sphere movement and make them move towards the midpoint between their target images.
+    /// </summary>
     public void MoveSpheresTogether()
     {
-        if (state == MixingState.Idle || state == MixingState.MovingApart)
+        if (_state == MixingState.Idle || _state == MixingState.MovingApart)
         {
             if (_imageTargets.Count == 2 && _colorSpheres.Count == 2)
             {
-                state = MixingState.MovingTogether;
-                previousImageTargetPos = _imageTargets.Select(x => x.GetPosition()).ToList();
+                _state = MixingState.MovingTogether;
+                _previousImageTargetPos = _imageTargets.Select(x => x.GetPosition()).ToList();
                 Vector3 resultPosition = CalculateMidpointPosition(_imageTargets[0].GetPosition(), _imageTargets[1].GetPosition());
 
                 foreach (ColorSphere sphere in _colorSpheres)
                 {
-                    //sphere.SetParent(parentObject.gameObject);
                     sphere.Move(resultPosition, _sphereMovementSpeed);
                 }
             }
         }
     }
 
+    /// <summary>
+    /// Makes spheres move apart towards their original position (on top of the image targets)
+    /// </summary>
     public void MoveSpheresApart()
     {
-        if (state == MixingState.MovingTogether)
+        if (_state == MixingState.MovingTogether)
         {
-            state = MixingState.MovingApart;
-            previousImageTargetPos = _imageTargets.Select(x => x.GetPosition()).ToList();
+            _state = MixingState.MovingApart;
+            _previousImageTargetPos = _imageTargets.Select(x => x.GetPosition()).ToList();
         }
     }
 
+    /// <summary>
+    /// Generate Result color of the two current spheres and activate mixing animation.
+    /// </summary>
     public void StartMixing()
     {
         //Mix only if there are two targets detected
-        if (state == MixingState.MovingTogether && _imageTargets.Count == 2)
+        if (_state == MixingState.MovingTogether && _imageTargets.Count == 2)
         {
-            gameManager.MixingHasStarted();
-            state = MixingState.Mixing;
+            _gameManager.MixingHasStarted();
+            _state = MixingState.Mixing;
             _resultColor = GenerateMixedColor(_colorSpheres[0], _colorSpheres[1]);
-           
+
             foreach (ColorSphere sphere in _colorSpheres)
             {
-                sphere.SetParent(parentObject.gameObject);
+                sphere.SetParent(_parentObject.gameObject);
                 sphere.IsMixing();
             }
-            animSynchronizer.ActivateMixingAnimation();
-            resultSphere.ShowSphere(_resultColor);
+            _animSynchronizer.ActivateMixingAnimation();
+            _resultSphere.ShowSphere(_resultColor);
         }
     }
 
+    /// <summary>
+    /// notify game manager when the mixing has finished
+    /// </summary>
     public void MixingHasFinished()
     {
-        gameManager.MixingHasFinished(_resultColor);
+        _gameManager.MixingHasFinished(_resultColor);
     }
 
+    /// <summary>
+    /// Hide the result sphere and set the mixing state to idle.
+    /// </summary>
     public void HideResultSphere()
     {
-        resultSphere.Reset();
-        state = MixingState.Idle;
+        _resultSphere.Reset();
+        _state = MixingState.Idle;
     }
 
+    /// <summary>
+    /// Destroy all the child spheres in the parent object
+    /// </summary>
     public void DestroyAllSpheresInParent()
     {
-        foreach (Transform child in parentObject.transform)
+        foreach (Transform child in _parentObject.transform)
         {
             Destroy(child.gameObject);
         }
     }
-     
 
+    /// <summary>
+    /// Calculate the midpoint position between two vectors.
+    /// </summary>
+    /// <param name="position1">vector 1</param>
+    /// <param name="position2"> vector 2</param>
+    /// <returns></returns>
     private Vector3 CalculateMidpointPosition(Vector3 position1, Vector3 position2)
     {
         return (position1 + position2) / 2;
     }
 
+    /// <summary>
+    /// Check if the target position has changed
+    /// </summary>
+    /// <returns>true, if the target position has changed</returns>
     private bool TargetPositionHasChanged()
     {
-        if (previousImageTargetPos.Count != _imageTargets.Count)
+        if (_previousImageTargetPos.Count != _imageTargets.Count)
         {
             return true;
         }
-
-        for(int i = 0; i<previousImageTargetPos.Count; i++)
+        for (int i = 0; i < _previousImageTargetPos.Count; i++)
         {
-            if (!previousImageTargetPos[i].Equals(_imageTargets[i].GetPosition()))
+            if (!_previousImageTargetPos[i].Equals(_imageTargets[i].GetPosition()))
             {
                 return true;
             }
@@ -199,6 +227,12 @@ public class MixingController : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Generate the mixed color of two spheres
+    /// </summary>
+    /// <param name="sphere1"></param>
+    /// <param name="sphere2"></param>
+    /// <returns></returns>
     private Color GenerateMixedColor(ColorSphere sphere1, ColorSphere sphere2)
     {
         int colorIndex = (int)MixedColors.Instance.GetMixedColor(sphere1.GetColorId(), sphere2.GetColorId());

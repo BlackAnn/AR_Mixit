@@ -688,7 +688,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 790292305}
-        m_MethodName: GoToMainMenu
+        m_MethodName: GoToOptionMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2235,14 +2235,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2fa59e44a815408f9d531a004fb4085, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quizModeUI: {fileID: 472590950}
-  quizManager: {fileID: 401893783}
-  mixingController: {fileID: 884316047}
-  touchInteraction: {fileID: 1397433800}
-  helpText: {fileID: 1403337657}
-  helpPanel: {fileID: 1988223753}
-  resultPanel: {fileID: 852013837}
-  resultName: {fileID: 1943437308}
+  _quizModeUI: {fileID: 472590950}
+  _quizManager: {fileID: 401893783}
+  _mixingController: {fileID: 884316047}
+  _touchInteraction: {fileID: 1397433800}
+  _helpText: {fileID: 1403337657}
+  _helpPanel: {fileID: 1988223753}
+  _resultPanel: {fileID: 852013837}
+  _resultName: {fileID: 1943437308}
 --- !u!1 &833180457
 GameObject:
   m_ObjectHideFlags: 0
@@ -2764,10 +2764,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63a11307ea36048cf90d3aac2d694295, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 790292305}
-  resultSphere: {fileID: 780716520}
-  parentObject: {fileID: 142743768}
-  animSynchronizer: {fileID: 1478157184}
+  _gameManager: {fileID: 790292305}
+  _resultSphere: {fileID: 780716520}
+  _parentObject: {fileID: 142743768}
+  _animSynchronizer: {fileID: 1478157184}
 --- !u!43 &904486028
 Mesh:
   m_ObjectHideFlags: 0
@@ -4566,7 +4566,6 @@ MonoBehaviour:
   SwipeThreshold: 100
   ReferenceDpi: 200
   GuiLayers:
-    serializedVersion: 2
     m_Bits: 32
   RecordFingers: 1
   RecordThreshold: 5
@@ -4619,8 +4618,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 294a20e34440e4b59be88f0c524dd0cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mixingController: {fileID: 884316047}
-  gameManager: {fileID: 790292305}
+  _mixingController: {fileID: 0}
+  _gameManager: {fileID: 0}
 --- !u!4 &1397433801
 Transform:
   m_ObjectHideFlags: 0
