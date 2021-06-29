@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//TO DO: divide Sphere mixng & other Logic (?)
-//TO DO: Bewegung dynamischer machen (anfangs langsam, dann schneller
-//TO DO: anstatt state, bloss bool isMixing verwenden
-
+/// <summary>
+/// Mixable color sphere
+/// </summary>
 public class ColorSphere : MonoBehaviour
 {
     public enum SphereState
@@ -21,9 +20,15 @@ public class ColorSphere : MonoBehaviour
     private float _movementSpeed;
     private AnimatorSynchronizer _animSynchronizer;
     private SphereState _state;
-    
-    
-    //Instantiates a sphere
+        
+    /// <summary>
+    /// Instantiates a sphere
+    /// </summary>
+    /// <param name="parent">image target which will be the parent of the sphere</param>
+    /// <param name="colorId">colorId indicating the color of the sphere</param>
+    /// <param name="mixingController">mixing controller object responsible for managing the mixing of the sphere</param>
+    /// <param name="animSync">animator synchronizer responsible for synchronizing the sphere animation</param>
+    /// <returns></returns>
     public static ColorSphere Create(Transform parent, ColorNames colorId, MixingController mixingController, AnimatorSynchronizer animSync)
     {
         GameObject newObject = Instantiate(Resources.Load("Prefabs/ColorSphere"), parent, false) as GameObject;
@@ -41,25 +46,23 @@ public class ColorSphere : MonoBehaviour
     }
 
 
-    // Start is called before the first frame update
     void Start()
     {
-        //_animator = GetComponent<Animator>();
         _state = SphereState.Idle;
         _targetPosition = new Vector3();
         _movementSpeed = 0.2f;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        //if sphere is in isMoving state, adapt its position
         if(_state == SphereState.IsMoving)
         {
-            transform.position = Vector3.MoveTowards(transform.position, _targetPosition, _movementSpeed * Time.deltaTime);
-           
+            transform.position = Vector3.MoveTowards(transform.position, _targetPosition, _movementSpeed * Time.deltaTime);  
         }
     }
 
+    //when sphere collides with another sphere, start mixing
     void OnCollisionEnter(Collision collision)
     {
         if(_state == SphereState.IsMoving && collision.gameObject.tag == "ColorSphere")
@@ -68,49 +71,83 @@ public class ColorSphere : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets mixing controller
+    /// </summary>
+    /// <param name="mixingController"></param>
     protected void SetMixingController(MixingController mixingController)
     {
         _mixingController = mixingController;
     }
 
+    /// <summary>
+    /// sets animation synchronizer
+    /// </summary>
+    /// <param name="animSynch"></param>
     protected void SetAnimationSynchronizer(AnimatorSynchronizer animSynch)
     {
         _animSynchronizer = animSynch;
     }
 
+    /// <summary>
+    /// returns sphere position
+    /// </summary>
+    /// <returns>position as Vector3</returns>
     public Vector3 GetPosition()
 	{
         return transform.position;
 	}
 
+    /// <summary>
+    /// returns sphere localScale
+    /// </summary>
+    /// <returns>localScale as Vector3</returns>
     public Vector3 GetSize()
     {
         return transform.localScale;
     }
 
-
-
+    /// <summary>
+    /// returns sphere's color id
+    /// </summary>
+    /// <returns>color id as ColorNames enum</returns>
     public ColorNames GetColorId()
     {
         return _colorId;
     }
 
+    /// <summary>
+    /// sets sphere position
+    /// </summary>
+    /// <param name="newPosition">new sphere position</param>
     public void SetPosition(Vector3 newPosition)
     {
         transform.position = newPosition;
     }
 
+    /// <summary>
+    /// sets sphere parent
+    /// </summary>
+    /// <param name="parent">new parent gameobject</param>
     public void SetParent(GameObject parent)
     {
         transform.parent = parent.transform;
     }
 
+    /// <summary>
+    /// sets the target position, which the sphere will be moving towards
+    /// </summary>
+    /// <param name="targetPosition">new target position</param>
     public void SetTargetPosition(Vector3 targetPosition)
     {
         _targetPosition = targetPosition;
     }
 
-    //sets color_Id and updates sphere Color
+    
+    /// <summary>
+    /// sets color_Id and updates sphere material Color
+    /// </summary>
+    /// <param name="colorId">new color id</param>
     public void UpdateColor(ColorNames colorId)
     {
         _colorId = colorId;
@@ -118,22 +155,30 @@ public class ColorSphere : MonoBehaviour
         SetMaterialColor(color);
     }
 
-    //updates sphere color
+    /// <summary>
+    /// updates material color
+    /// </summary>
+    /// <param name="color">color which the material will be set to</param>
     private void SetMaterialColor(Color color)
     {
         MaterialPropertyBlock props = new MaterialPropertyBlock();
         props.SetColor("_Color", color);
         GetComponent<Renderer>().material.SetColor("_Color", color);
-        //GetComponent<Renderer>().material.color = color;
     }
 
-
+    /// <summary>
+    /// Set state to isMixing
+    /// </summary>
     public void IsMixing()
     {
         _state = SphereState.IsMixing;
     }
 
-
+    /// <summary>
+    /// Start moving sphere
+    /// </summary>
+    /// <param name="targetPosition">position that the sphere is moving towards</param>
+    /// <param name="speed">speed at which the sphere is moving</param>
     public void Move(Vector3 targetPosition, float speed)
     {
         _targetPosition = targetPosition;

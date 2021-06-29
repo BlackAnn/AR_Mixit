@@ -2,31 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// substitute parent object for color spheres. Used when spheres have to be independent of target sphere
+/// </summary>
 public class ParentObject : MonoBehaviour
 {
     private Animator animator;
 
-    // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    /// <summary>
+    /// Activate Mixing Animation
+    /// </summary>
     public void ActivateMixing()
     {
-        Debug.Log("ParentPosition = " + transform.position);
-
-        //Activate MixingAnimation (to left or right)
         animator.SetTrigger("MixSpheres");
     }
 
+    /// <summary>
+    /// Sets position
+    /// </summary>
+    /// <param name="position">new position</param>
     public void SetPosition(Vector3 position)
     {
         transform.position = position;

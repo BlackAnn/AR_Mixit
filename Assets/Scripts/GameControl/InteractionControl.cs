@@ -14,7 +14,7 @@ public class InteractionControl : MonoBehaviour
     private bool _activated = false;
     private bool _isInteracting;
     private ColorNames _lastHitSphere;
-    private float _timeForInteraction = 1.0f;
+    private float _timeForInteraction = 2.0f;
     private float _timer = 0.0f;
     private int _swipeCount = 0;
 
@@ -155,6 +155,7 @@ public class InteractionControl : MonoBehaviour
                         {
 
                             ColorNames hitSphere = hit.collider.GetComponent<ColorSphere>().GetColorId();
+
                             if (hitSphere != _lastHitSphere)
                             {
                                 _timer = 0.0f;

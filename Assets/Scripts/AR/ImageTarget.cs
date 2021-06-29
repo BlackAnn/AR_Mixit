@@ -2,17 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Image Target which can instantiate a sphere as a child
+/// </summary>
 public class ImageTarget : MonoBehaviour
 {
-    //public GameObject sphere;
     [SerializeField] private ColorNames colorId;
     [SerializeField] private MixingController mixingController;
     [SerializeField] private AnimatorSynchronizer animSynchronizer;
 
-
+    /// <summary>
+    /// instantiate a sphere child, if no sphere child exists yet
+    /// </summary>
+    /// <returns>sphere object that was instantiated</returns>
     public ColorSphere InstanciateSphere()
     {
-        //Instantiate new Sphere if no sphere exists yet
         if (transform.Find("ColorSphere(Clone)") == null)
         {
            return ColorSphere.Create(transform, colorId, mixingController, animSynchronizer);
@@ -20,12 +24,18 @@ public class ImageTarget : MonoBehaviour
         return null;
     }
 
+    /// <summary>
+    /// return image target position
+    /// </summary>
+    /// <returns>position</returns>
     public Vector3 GetPosition()
     {
         return transform.position;
     }
 
-    //Return child sphere or null if not child exists
+    /// <summary>
+    ///  Return child sphere or null if not child exists
+    /// </summary>
     public ColorSphere GetChildSphere()
     {
         Transform child = transform.Find("ColorSphere(Clone)");

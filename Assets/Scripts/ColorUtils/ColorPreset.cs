@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-//Class containing constants for the colors
+/// <summary>
+/// Class containing constants for colors used in the app. Each color preset has a display name, a color value and a boolean indicating if the color is mixable or not.
+/// </summary>
 public class ColorPreset 
 {
 
@@ -43,24 +44,42 @@ public class ColorPreset
         this.mixable = mixable;
     }
 
+    /// <summary>
+    /// returns the display name of the color
+    /// </summary>
+    /// <returns>display name as string</returns>
     public string GetDisplayName() {
         return displayName;
     }
 
+    /// <summary>
+    /// returns the enum matching the color
+    /// </summary>
+    /// <returns>ColorNames enum</returns>
     public ColorNames GetID() {
         return id;
     }
 
+    /// <summary>
+    /// returns if color is mixable or not
+    /// </summary>
+    /// <returns>true, if color is mixable</returns>
     public bool GetMixable() {
         return mixable;
     }
 
+    /// <summary>
+    /// returns color value of the Color preset
+    /// </summary>
+    /// <returns>Color value</returns>
     public Color GetColor() {
         return color;
     }
 
-    //ColorPreset.GetValues()[random]  --> random Farbwert erhalten
-    //ColorPreset.GetValues()[(int)ColorNames.CYAN]  --> Werte fuer Cyan
+    /// <summary>
+    /// returns a list containint all the color presets
+    /// </summary>
+    /// <returns>List with all the Color Presets</returns>
     public static List<ColorPreset> GetValues()
     {
         List<ColorPreset> list = new List<ColorPreset>();
@@ -82,19 +101,31 @@ public class ColorPreset
         return list;
     }
 
-    //zB: id = (int)ColorNames.CYAN   ---> gibt Wert fuer Cyan zurueck
+    /// <summary>
+    /// returns a color value based on its index
+    /// </summary>
+    /// <param name="id">index of the color value in the color preset list. The id is matching with the ColorNames enum</param>
+    /// <returns>Color matching the id</returns>
     public static Color GetColorById(int id)
     {
-        //TO DO: add check if id exists
         return GetValues()[id].color;
     }
 
+    /// <summary>
+    /// returns a color display name based on its index
+    /// </summary>
+    /// <param name="id">index of the color value in the color preset list. The id is matching with the ColorNames enum</param>
+    /// <returns>display name matching the id</returns>
     public static string GetDisplayNameById(int id)
     {
-        //TO DO: add check if id exists
         return GetValues()[id].displayName;
     }
 
+    /// <summary>
+    /// returns display name based on a color Value
+    /// </summary>
+    /// <param name="color">color value, for which the display name will be returned</param>
+    /// <returns>matching display name, null if no display name is found</returns>
     public static string GetDisplayNameByColor(Color color)
     {
             List<ColorPreset> colorList = ColorPreset.GetValues();
