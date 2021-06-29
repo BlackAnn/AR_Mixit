@@ -82,6 +82,7 @@ public class GameManager : MonoBehaviour
             target.InstanciateSphere();
         }
 
+        Debug.Log("Activate User Interaction");
         ChangeHelpText();
         helpPanel.SetActive(true);
     }
@@ -139,6 +140,9 @@ public class GameManager : MonoBehaviour
 
     private void ChangeHelpText()
     {
+        Debug.Log("Change Text: " + detectedImageTargets.Count);
+        Debug.Log("HelpText is active: " + helpText.gameObject.active);
+        Debug.Log("HelpText : " + helpText.text);
 
         if (detectedImageTargets.Count == 0)
         {
@@ -177,7 +181,7 @@ public class GameManager : MonoBehaviour
         else if (_mode == GameMode.Quiz)
         {
             _state = GameState.Idle;
-            helpText.gameObject.SetActive(false);
+            helpPanel.SetActive(false);
         }
     }
 
