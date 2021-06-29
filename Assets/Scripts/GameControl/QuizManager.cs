@@ -14,9 +14,9 @@ public class QuizManager : MonoBehaviour {
     List<Color> cNames;
     List<ColorPreset> cList;
 
-    private Image colorToMixImg;
+    //private Image colorToMixImg;
 
-    private GameObject quizModeUI;
+    //private GameObject quizModeUI;
 
     // Start is called before the first frame update
     void Start() {
@@ -26,6 +26,8 @@ public class QuizManager : MonoBehaviour {
     //setup for quiz-modehel
     public void SetupGame() {
         CreateColorList();
+        quizUIController.SetColorToMixImage(GetRandomColor());
+        quizUIController.Show();
     }
 
     //Methode, die die Nutzer-Interaktion fuer das Spiel beginnen laesst
@@ -64,7 +66,6 @@ public class QuizManager : MonoBehaviour {
     public void EvaluateResult(Color resultColor) {
         bool result;
         Color currentColor = quizUIController.GetColorToMixImageColor();
-        // = colorToMixImg.GetComponent<Image>().color;
 
         if (currentColor == resultColor) {
             result = true;
@@ -74,6 +75,5 @@ public class QuizManager : MonoBehaviour {
 
         quizUIController.ShowMixResult(result);
 
-        Debug.Log("EVALUATE RESULT, color = " + resultColor);
     }
 }

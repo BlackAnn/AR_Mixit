@@ -10,8 +10,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     //UI Control
-    //[SerializeField] private UIController learnModeUI;
-    [SerializeField] private UIController quizModeUI;
+    [SerializeField] private QuizUIController quizModeUI;
     [SerializeField] private QuizManager quizManager;
     [SerializeField] private MixingController mixingController;
     [SerializeField] private InteractionControl touchInteraction;
@@ -38,12 +37,13 @@ public class GameManager : MonoBehaviour
         //GameModeController.gameMode = "Quiz";
         //_state = GameState.Idle;
 
+        GameModeController.previousWindow = GameModeController.gameMode;
+
+
         if (GameModeController.gameMode.Equals("Learn"))
         {
             _mode = GameMode.Learn;
             ActivateUserInteraction();
-            //learnModeUI.Show();
-
             quizModeUI.Hide();
         }
         else if (GameModeController.gameMode.Equals("Quiz"))
@@ -53,9 +53,9 @@ public class GameManager : MonoBehaviour
             //zum Testen!!
             //   ActivateUserInteraction();
 
-            //learnModeUI.Hide();
-            quizModeUI.Show();
             quizManager.SetupGame();
+            
+            
 
         }
         else // Delete?
@@ -193,6 +193,7 @@ public class GameManager : MonoBehaviour
         _state = GameState.ShowingResultSphere;
         if (_mode == GameMode.Quiz)
         {
+            Debug.Log("in Mixing had finished: " + resultColor);
             quizManager.EvaluateResult(resultColor);
         }
         else

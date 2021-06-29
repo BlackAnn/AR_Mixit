@@ -5,26 +5,43 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class QuizUIController : MonoBehaviour {
-    private Image colorToMixImg;
-    private Image colorToMixImgSmall;
-    private GameObject resultTxt;
-    private GameObject continueButton;
+    [SerializeField]private Image colorToMixImg;
+    [SerializeField] private Image colorToMixImgSmall;
+    [SerializeField] private TextMeshProUGUI resultTxt;
+    [SerializeField] private GameObject continueButton;
 
     // Start is called before the first frame update
     void Start() {
-        colorToMixImg = GameObject.Find("ColorToMixImage").GetComponent<Image>();
-        colorToMixImgSmall = GameObject.Find("ColorToMixImageSmall").GetComponent<Image>();
-        resultTxt = GameObject.Find("QuizModeResultText");
-        continueButton = GameObject.Find("QuizNextButton");
+
+        //colorToMixImg = GameObject.Find("ColorToMixImage").GetComponent<Image>();
+        //colorToMixImgSmall = GameObject.Find("QuizModePromptTextSmall/ColorToMixImageSmall").GetComponent<Image>();
+        //resultTxt = GameObject.Find("QuizModeResultText").GetComponent<TextMeshProUGUI>();
+        //continueButton = GameObject.Find("QuizNextButton");
+        //GameObject.Find("QuizModePromptTextSmall").gameObject.SetActive(false);
+        //resultTxt.gameObject.SetActive(false);
+        //continueButton.gameObject.SetActive(false);
     }
 
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+    }
+
+
     public void ShowMixResult(bool result) {
+        
         if (result)
-            resultTxt.GetComponent<TextMeshProUGUI>().text = "Richtig!";
+            resultTxt.text = "Richtig!";
         else {
-            resultTxt.GetComponent<TextMeshProUGUI>().text = "Falsch";
+            resultTxt.text = "Falsch";
         }
-        resultTxt.SetActive(true);
+        resultTxt.gameObject.SetActive(true);
+
         continueButton.SetActive(true);
     }
 
@@ -35,6 +52,7 @@ public class QuizUIController : MonoBehaviour {
 
     public Color GetColorToMixImageColor()
     {
+      
         return colorToMixImg.color;
     }
 }

@@ -23,6 +23,7 @@ public class MixingController : MonoBehaviour
         MovingTogether,
         MovingApart,
         Mixing,
+        ShowingResultSphere
   
     }
 
@@ -50,16 +51,23 @@ public class MixingController : MonoBehaviour
 
             //if (TargetPositionHasChanged())
 
-                if(state == MixingState.MovingApart)
+            if (state == MixingState.MovingApart)
+            {
+                for (int i = 0; i < _colorSpheres.Count; i++)
                 {
-                    for (int i = 0; i < _colorSpheres.Count; i++)
-                    {
-                        Vector3 targetPosition = _imageTargets[i].GetPosition();
-                        //targetPosition.y += 0.03f;
-                        _colorSpheres[i].SetTargetPosition(targetPosition);
-                    }
+                    Vector3 targetPosition = _imageTargets[i].GetPosition();
+                    //targetPosition.y += 0.03f;
+                    _colorSpheres[i].SetTargetPosition(targetPosition);
                 }
-                else if(_imageTargets.Count == 2 && _colorSpheres.Count == 2)
+            }
+            else if (state == MixingState.ShowingResultSphere)
+            {
+                Vector3 resultPosition = CalculateMidpointPosition(_imageTargets[0].GetPosition(), _imageTargets[1].GetPosition());
+                resultSphere.SetPosition(resultPosition);
+            }
+            else if (state == MixingState.MovingTogether || state == MixingState.Mixing)
+            {
+                if (_imageTargets.Count == 2 && _colorSpheres.Count == 2)
                 {
                     Vector3 resultPosition = CalculateMidpointPosition(_imageTargets[0].GetPosition(), _imageTargets[1].GetPosition());
                     foreach (ColorSphere sphere in _colorSpheres)
@@ -72,14 +80,18 @@ public class MixingController : MonoBehaviour
                     if (state == MixingState.Mixing)
                     {
                         resultSphere.SetPosition(resultPosition);
-                        if(_colorSpheres[0].GetSize().Equals(new Vector3(0, 0, 0)))
+                        if (_colorSpheres[0].GetSize().Equals(new Vector3(0, 0, 0)))
                         {
-                        MixingHasFinished();
+                            state = MixingState.ShowingResultSphere;
+                            Debug.Log("state = " + state);
+                            MixingHasFinished();
                         }
                     }
                     previousImageTargetPos = _imageTargets.Select(x => x.GetPosition()).ToList();
+                }
+            }
 
-                }  
+               
         }
     }
 
@@ -153,6 +165,7 @@ public class MixingController : MonoBehaviour
     public void HideResultSphere()
     {
         resultSphere.Reset();
+        state = MixingState.Idle;
     }
 
     public void DestroyAllSpheresInParent()
