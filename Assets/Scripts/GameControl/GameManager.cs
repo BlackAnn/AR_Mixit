@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MixingController mixingController;
     [SerializeField] private InteractionControl touchInteraction;
     [SerializeField] private TextMeshProUGUI helpText;
+    [SerializeField] private GameObject helpPanel;
 
     private List<ImageTarget> detectedImageTargets = new List<ImageTarget>();
     private GameState _state;
@@ -50,8 +51,7 @@ public class GameManager : MonoBehaviour
         {
             _mode = GameMode.Quiz;
             _state = GameState.Idle;
-            //zum Testen!!
-            //   ActivateUserInteraction();
+            helpPanel.SetActive(false);
 
             quizManager.SetupGame();
             
@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour
         }
 
         ChangeHelpText();
-        helpText.gameObject.SetActive(true);
+        helpPanel.SetActive(true);
     }
 
 
@@ -185,7 +185,7 @@ public class GameManager : MonoBehaviour
     {
         _state = GameState.Mixing;
         touchInteraction.Deactivate();
-        helpText.gameObject.SetActive(false);
+        helpPanel.SetActive(false);
     }
 
     public void MixingHasFinished(Color resultColor)

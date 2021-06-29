@@ -42,6 +42,8 @@ public class QuizManager : MonoBehaviour {
         quizUIController.SetColorToMixImage(GetRandomColor());
     }
 
+  
+
     public Color GetRandomColor() {
         int rnd = Random.Range(0, cNames.Count);
         Color rndColor = cNames[rnd];
