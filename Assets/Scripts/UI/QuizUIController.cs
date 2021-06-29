@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class QuizUIController : MonoBehaviour {
     [SerializeField] private Image colorToMixImg;
     [SerializeField] private Image colorToMixImgSmall;
+    [SerializeField] private GameObject resultPanel;
+    [SerializeField] private GameObject tippPanel;
     [SerializeField] private TextMeshProUGUI resultTxt;
     [SerializeField] private TextMeshProUGUI tippTxt;
     [SerializeField] private GameObject continueButton;
@@ -35,16 +37,16 @@ public class QuizUIController : MonoBehaviour {
         if (result) {
             resultTxt.text = "Richtig!";
             resultTxt.color = Color.green;
-            tippTxt.text = "Richtige Farbe: " + mixedColor;
+            tippTxt.text = "Richtige Farbe:\n" + mixedColor;
         } else {
             resultTxt.text = "Falsch!";
             resultTxt.color = Color.red;
-            tippTxt.text = "Gemischte Farbe: " + mixedColor + "\nRichtige Farbe: " + correctColor;
+            tippTxt.text = "Gemischte Farbe:\n" + mixedColor + "\n\nRichtige Farbe:\n" + correctColor;
             tryAgainButton.SetActive(true);
         }
 
         tippButton.SetActive(true);
-        resultTxt.gameObject.SetActive(true);
+        resultPanel.gameObject.SetActive(true);
         continueButton.SetActive(true);
     }
 }
