@@ -110,6 +110,24 @@ using UnityEngine;
 
 			}
 		}
+		else
+		{
+			if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
+			{
+				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				RaycastHit hit;
+
+				if (Physics.Raycast(ray, out hit))
+				{
+					if (hit.collider != null && hit.collider.gameObject.tag == "ResultSphere")
+					{
+
+						gameManager.ToggleResultName();
+
+					}
+				}
+			}
+		}
 
 #if UNITY_EDITOR
 
