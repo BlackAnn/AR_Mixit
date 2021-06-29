@@ -19,7 +19,7 @@ public class ColorPreset
     public static ColorPreset GREEN = new ColorPreset(ColorNames.GREEN, "Gruen", new Color(0, 142/255f, 91/255f), true);
 
     //Tertiary Colors
-    public static ColorPreset LIGHT_GREEN = new ColorPreset(ColorNames.LIGHT_GREEN, "Gellgruen", new Color(140/255f, 187/255f, 38/255f), true);
+    public static ColorPreset LIGHT_GREEN = new ColorPreset(ColorNames.LIGHT_GREEN, "Hellgruen", new Color(140/255f, 187/255f, 38/255f), true);
     public static ColorPreset DARK_YELLOW = new ColorPreset(ColorNames.DARK_YELLOW, "Dunkelgelb", new Color(253/255f, 198/255f, 11/255f), true);
     public static ColorPreset ORANGE_RED = new ColorPreset(ColorNames.ORANGE_RED, "Orangerot", new Color(234/255f, 98/255f, 31/255f), true);
     public static ColorPreset PURPLE_RED = new ColorPreset(ColorNames.PURPLE_RED, "Purpurrot", new Color(196/255f, 3/255f, 125/255f), true);
@@ -27,7 +27,7 @@ public class ColorPreset
     public static ColorPreset BLUE_GREEN = new ColorPreset(ColorNames.BLUE_GREEN, "Blaugruen", new Color(6/255f, 150/255f, 187/255f), true);
 
     //Black (ändern?)
-    public static ColorPreset BLACK = new ColorPreset(ColorNames.BLACK, "Dunkelgrau", new Color(0.1f, 0.1f, 0.1f), false);
+    public static ColorPreset BLACK = new ColorPreset(ColorNames.BLACK, "Dunkelgrau", new Color(0.3f, 0.3f, 0.3f), false);
 
 
     private ColorNames id;
@@ -93,6 +93,19 @@ public class ColorPreset
     {
         //TO DO: add check if id exists
         return GetValues()[id].displayName;
+    }
+
+    public static string GetDisplayNameByColor(Color color)
+    {
+            List<ColorPreset> colorList = ColorPreset.GetValues();
+            foreach (ColorPreset c in colorList)
+            {
+                if (color.Equals(c.GetColor()))
+                {
+                    return c.GetDisplayName();
+                }
+            }
+            return null;
     }
 
 

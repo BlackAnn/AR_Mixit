@@ -16,14 +16,20 @@ public class GameManager : MonoBehaviour
     [SerializeField] private InteractionControl touchInteraction;
     [SerializeField] private TextMeshProUGUI helpText;
     [SerializeField] private GameObject helpPanel;
+    [SerializeField] private GameObject resultPanel;
+    [SerializeField] private TextMeshProUGUI resultName;
+
+
 
     private List<ImageTarget> detectedImageTargets = new List<ImageTarget>();
     private GameState _state;
     private GameMode _mode;
+    private Color _resultColor = Color.black;
 
     private string helpText_NoCards = "Lege 2 Farbkarten nebeneinander und scanne sie.";
     private string helpText_OneCard = "Lege noch eine Farbkarte hinzu.";
     private string helpText_TwoCards = "Reibe ueber die beiden Kugeln um sie zu mischen.";
+    private string helpText_Result = "Klicke auf die Kugel um den Farbnamen anzuzeigen und auszublenden.";
 
 
     public enum GameMode
@@ -52,6 +58,7 @@ public class GameManager : MonoBehaviour
             _mode = GameMode.Quiz;
             _state = GameState.Idle;
             helpPanel.SetActive(false);
+            resultPanel.SetActive(false);
 
             quizManager.SetupGame();
             
@@ -73,6 +80,7 @@ public class GameManager : MonoBehaviour
     public void ActivateUserInteraction()
     {
         _state = GameState.UserInteraction;
+        resultPanel.SetActive(false);
         touchInteraction.Activate();
 
         mixingController.DestroyAllSpheresInParent();
@@ -196,17 +204,34 @@ public class GameManager : MonoBehaviour
     public void MixingHasFinished(Color resultColor)
     {
         _state = GameState.ShowingResultSphere;
+        _resultColor = resultColor;
         if (_mode == GameMode.Quiz)
         {
-            Debug.Log("in Mixing had finished: " + resultColor);
             quizManager.EvaluateResult(resultColor);
         }
         else
         {
-            //show reset button ?
+            helpText.text = helpText_Result;
+            helpPanel.SetActive(true);
         }
     }
 
+    public void ToggleResultName()
+    {
+        if (_mode == GameMode.Learn && _state == GameState.ShowingResultSphere)
+        {
+            if (resultPanel.active)
+            {
+                resultPanel.SetActive(false);
+            }
+            else
+            {
+                resultName.color = _resultColor;
+                resultName.text = ColorPreset.GetDisplayNameByColor(_resultColor);
+                resultPanel.SetActive(true);
+            }
+        }
+    }
 
 
 

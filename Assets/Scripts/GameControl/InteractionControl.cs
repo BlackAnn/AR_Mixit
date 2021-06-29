@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 
 	public class InteractionControl : MonoBehaviour
 	{
 		[SerializeField] private MixingController mixingController;
+	    [SerializeField] private GameManager gameManager;
+	    
 
-		private bool activated = false;
+	private bool activated = false;
         private bool isInteracting;
 		private ColorNames lastHitSphere;
 		private float timeForInteraction = 1.0f;
@@ -180,7 +183,24 @@ using UnityEngine;
 					} //else if touchIsNotMoving => intercation = false
 
 				}
+			} else
+        {
+			if (Input.GetMouseButtonDown(0))
+			{
+				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				RaycastHit hit;
+
+				if (Physics.Raycast(ray, out hit))
+				{
+					if (hit.collider != null && hit.collider.gameObject.tag == "ResultSphere")
+					{
+
+						gameManager.ToggleResultName();
+
+					}
+				}
 			}
+		}
 #endif
 		}
 
@@ -194,5 +214,7 @@ using UnityEngine;
 			activated = false;
         }
 
-	}
+
+
+}
 

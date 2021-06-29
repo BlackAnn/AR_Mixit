@@ -66,16 +66,10 @@ public class QuizManager : MonoBehaviour {
         } else {
             result = false;
         }
-        quizUIController.ShowMixResult(result, GetColorName(currentColor), GetColorName(resultColor));
+        quizUIController.ShowMixResult(result, ColorPreset.GetDisplayNameByColor(currentColor), ColorPreset.GetDisplayNameByColor(resultColor));
     }
 
-    private string GetColorName(Color color) {
-        List<ColorPreset> colorList = ColorPreset.GetValues();
-        foreach (ColorPreset c in colorList) {
-            if (color.Equals(c.GetColor())) {
-                return c.GetDisplayName();
-            }
-        }
-        return null;
-    }
+ 
+
+  
 }

@@ -15,6 +15,14 @@ public class QuizUIController : MonoBehaviour {
     [SerializeField] private GameObject tryAgainButton;
     [SerializeField] private GameObject tippButton;
 
+    private Color wrongColor;
+    private Color rightColor;
+
+    private void Start()
+    {
+        rightColor = new Color(42 / 255f, 152 / 255f, 85 / 255f);
+        wrongColor = new Color(199 / 255f, 100 / 255f, 102 / 255f);
+    }
     public void Show() {
         gameObject.SetActive(true);
     }
@@ -36,11 +44,11 @@ public class QuizUIController : MonoBehaviour {
     public void ShowMixResult(bool result, string correctColor,string mixedColor) {
         if (result) {
             resultTxt.text = "Richtig!";
-            resultTxt.color = Color.green;
+            resultTxt.color = rightColor;
             tippTxt.text = "Richtige Farbe:\n" + mixedColor;
         } else {
-            resultTxt.text = "Falsch!";
-            resultTxt.color = Color.red;
+            resultTxt.text = "Leider Falsch...";
+            resultTxt.color = wrongColor;
             tippTxt.text = "Gemischte Farbe:\n" + mixedColor + "\n\nRichtige Farbe:\n" + correctColor;
             tryAgainButton.SetActive(true);
         }
