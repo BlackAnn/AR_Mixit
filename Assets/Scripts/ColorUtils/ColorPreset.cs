@@ -9,25 +9,25 @@ public class ColorPreset
 {
 
     //Primary Colors
-    public static ColorPreset CYAN = new ColorPreset(ColorNames.CYAN, "Cyan", new Color(0, 1, 1), false);
-    public static ColorPreset MAGENTA = new ColorPreset(ColorNames.MAGENTA, "Magenta", new Color(1, 0, 1), false);
-    public static ColorPreset YELLOW = new ColorPreset(ColorNames.YELLOW, "Gelb", new Color(1, 1, 0), false);
+    public static ColorPreset CYAN_BLUE = new ColorPreset(ColorNames.CYAN_BLUE, "Cyanblau", new Color(42/255f, 113/255f, 176/255f), false);
+    public static ColorPreset MAGENTA_RED = new ColorPreset(ColorNames.MAGENTA_RED, "Magentarot", new Color(227/255f, 35/255f, 34/255f), false);
+    public static ColorPreset YELLOW = new ColorPreset(ColorNames.YELLOW, "Gelb", new Color(244/255f, 229/255f, 0), false);
 
     //Secondary Colors
-    public static ColorPreset RED = new ColorPreset(ColorNames.RED, "Rot", new Color(1, 0, 0), true);
-    public static ColorPreset BLUE = new ColorPreset(ColorNames.BLUE, "Blau", new Color(0, 0, 1), true);
-    public static ColorPreset GREEN = new ColorPreset(ColorNames.GREEN, "Grün", new Color(0, 1, 0), true);
+    public static ColorPreset ORANGE = new ColorPreset(ColorNames.ORANGE, "Orange", new Color(241/255f, 142/255f, 28/255f), true);
+    public static ColorPreset VIOLETT = new ColorPreset(ColorNames.VIOLETT, "Violett", new Color(109/255f, 57/255f, 139/255f), true);
+    public static ColorPreset GREEN = new ColorPreset(ColorNames.GREEN, "Gruen", new Color(0, 142/255f, 91/255f), true);
 
     //Tertiary Colors
-    public static ColorPreset CYAN_GREEN = new ColorPreset(ColorNames.CYAN_GREEN, "Cyan_Gruen", new Color(0, 1, 0.5f), true);
-    public static ColorPreset CYAN_BLUE = new ColorPreset(ColorNames.CYAN_BLUE, "Cyan_Blau", new Color(0, 0.5f, 1), true);
-    public static ColorPreset MAGENTA_RED = new ColorPreset(ColorNames.MAGENTA_RED, "Magenta_Rot", new Color(1, 0, 0.5f), true);
-    public static ColorPreset MAGENTA_BLUE = new ColorPreset(ColorNames.MAGENTA_BLUE, "Magenta_Blau", new Color(0.5f, 0, 1), true);
-    public static ColorPreset YELLOW_RED = new ColorPreset(ColorNames.YELLOW_RED, "Gelb_Rot", new Color(1, 0.5f, 0), true);
-    public static ColorPreset YELLOW_GREEN = new ColorPreset(ColorNames.YELLOW_GREEN, "Gelb_Blau", new Color(0.5f, 1, 0), true);
+    public static ColorPreset LIGHT_GREEN = new ColorPreset(ColorNames.LIGHT_GREEN, "Gellgruen", new Color(140/255f, 187/255f, 38/255f), true);
+    public static ColorPreset DARK_YELLOW = new ColorPreset(ColorNames.DARK_YELLOW, "Dunkelgelb", new Color(253/255f, 198/255f, 11/255f), true);
+    public static ColorPreset ORANGE_RED = new ColorPreset(ColorNames.ORANGE_RED, "Orangerot", new Color(234/255f, 98/255f, 31/255f), true);
+    public static ColorPreset PURPLE_RED = new ColorPreset(ColorNames.PURPLE_RED, "Purpurrot", new Color(196/255f, 3/255f, 125/255f), true);
+    public static ColorPreset BLUE_VIOLETT = new ColorPreset(ColorNames.BLUE_VIOLETT, "Blauviolett", new Color(68/255f, 78/255f, 153/255f), true);
+    public static ColorPreset BLUE_GREEN = new ColorPreset(ColorNames.BLUE_GREEN, "Blaugruen", new Color(6/255f, 150/255f, 187/255f), true);
 
     //Black (ändern?)
-    public static ColorPreset BLACK = new ColorPreset(ColorNames.BLACK, "Schwarz", new Color(0, 0, 0), false);
+    public static ColorPreset BLACK = new ColorPreset(ColorNames.BLACK, "Dunkelgrau", new Color(0.1f, 0.1f, 0.1f), false);
 
 
     private ColorNames id;
@@ -61,18 +61,18 @@ public class ColorPreset
     {
         List<ColorPreset> list = new List<ColorPreset>();
 
-        list.Insert((int)CYAN.id,CYAN);
-        list.Insert((int)MAGENTA.id, MAGENTA);
-        list.Insert((int)YELLOW.id, YELLOW);
-        list.Insert((int)RED.id, RED);
-        list.Insert((int)BLUE.id, BLUE);
-        list.Insert((int)GREEN.id, GREEN);
-        list.Insert((int)CYAN_GREEN.id, CYAN_GREEN);
         list.Insert((int)CYAN_BLUE.id, CYAN_BLUE);
         list.Insert((int)MAGENTA_RED.id, MAGENTA_RED);
-        list.Insert((int)MAGENTA_BLUE.id, MAGENTA_BLUE);
-        list.Insert((int)YELLOW_RED.id, YELLOW_RED);
-        list.Insert((int)YELLOW_GREEN.id, YELLOW_GREEN);
+        list.Insert((int)YELLOW.id, YELLOW);
+        list.Insert((int)ORANGE.id, ORANGE);
+        list.Insert((int)VIOLETT.id, VIOLETT);
+        list.Insert((int)GREEN.id, GREEN);
+        list.Insert((int)LIGHT_GREEN.id, LIGHT_GREEN);
+        list.Insert((int)DARK_YELLOW.id, DARK_YELLOW);
+        list.Insert((int)ORANGE_RED.id, ORANGE_RED);
+        list.Insert((int)PURPLE_RED.id, PURPLE_RED);
+        list.Insert((int)BLUE_VIOLETT.id, BLUE_VIOLETT);
+        list.Insert((int)BLUE_GREEN.id, BLUE_GREEN);
         list.Insert((int)BLACK.id, BLACK);
 
         return list;

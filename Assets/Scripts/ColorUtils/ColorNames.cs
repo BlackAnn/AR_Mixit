@@ -5,18 +5,18 @@ using UnityEngine;
     
     public enum ColorNames
     {
-        CYAN,
-        MAGENTA,
-        YELLOW,
-        RED,
-        BLUE,
-        GREEN,
-        CYAN_GREEN,
         CYAN_BLUE,
         MAGENTA_RED,
-        MAGENTA_BLUE,
-        YELLOW_RED,
-        YELLOW_GREEN,
+        YELLOW,
+        ORANGE,
+        VIOLETT,
+        GREEN,
+        LIGHT_GREEN,
+        DARK_YELLOW,
+        ORANGE_RED,
+        PURPLE_RED,
+        BLUE_VIOLETT,
+        BLUE_GREEN,
         BLACK
     }
 

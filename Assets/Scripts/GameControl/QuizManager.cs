@@ -20,10 +20,10 @@ public class QuizManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        colorToMixImg = GameObject.Find("ColorToMixImage").GetComponent<Image>();
+        //colorToMixImg = GameObject.Find("ColorToMixImage").GetComponent<Image>();
     }
 
-    //setup for quiz-mode
+    //setup for quiz-modehel
     public void SetupGame() {
         CreateColorList();
     }
@@ -63,7 +63,8 @@ public class QuizManager : MonoBehaviour {
     //DUMMY_METHODE: Methode, die aufgerufen wird, wenn fertig gemischt wurde
     public void EvaluateResult(Color resultColor) {
         bool result;
-        Color currentColor = colorToMixImg.GetComponent<Image>().color;
+        Color currentColor = quizUIController.GetColorToMixImageColor();
+        // = colorToMixImg.GetComponent<Image>().color;
 
         if (currentColor == resultColor) {
             result = true;

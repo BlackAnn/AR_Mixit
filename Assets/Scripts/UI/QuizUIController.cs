@@ -32,4 +32,9 @@ public class QuizUIController : MonoBehaviour {
         colorToMixImg.color = color;
         colorToMixImgSmall.color = colorToMixImg.color;
     }
+
+    public Color GetColorToMixImageColor()
+    {
+        return colorToMixImg.color;
+    }
 }

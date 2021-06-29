@@ -6,7 +6,7 @@ public class ImageTarget : MonoBehaviour
 {
     //public GameObject sphere;
     [SerializeField] private ColorNames colorId;
-    [SerializeField]private MixingController mixingController;
+    [SerializeField] private MixingController mixingController;
     [SerializeField] private AnimatorSynchronizer animSynchronizer;
 
 

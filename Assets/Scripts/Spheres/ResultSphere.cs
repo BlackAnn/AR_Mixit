@@ -37,8 +37,11 @@ public class ResultSphere : MonoBehaviour
     //resets the sphere to its initial state
     public void Reset()
     {
-        transform.gameObject.SetActive(false);
-        transform.localScale = _initialScale;
+        if (gameObject.active)
+        {
+            transform.gameObject.SetActive(false);
+            transform.localScale = _initialScale;
+        }
     }
 
 

@@ -13,25 +13,25 @@ public sealed class MixedColors
     private MixedColors() {
         mixedColorsDict = new Dictionary<Tuple<ColorNames, ColorNames>, ColorNames>();
         //Mixing Primary-Primary
-        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.CYAN, ColorNames.YELLOW), ColorNames.GREEN);
-        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.CYAN, ColorNames.MAGENTA), ColorNames.BLUE);
-        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.YELLOW, ColorNames.MAGENTA), ColorNames.RED);
+        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.CYAN_BLUE, ColorNames.YELLOW), ColorNames.GREEN);
+        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.CYAN_BLUE, ColorNames.MAGENTA_RED), ColorNames.VIOLETT);
+        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.YELLOW, ColorNames.MAGENTA_RED), ColorNames.ORANGE);
 
         //Mixing Primary-Secondary
-        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.CYAN, ColorNames.GREEN), ColorNames.CYAN_GREEN);
-        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.CYAN, ColorNames.BLUE), ColorNames.CYAN_BLUE);
-        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.CYAN, ColorNames.RED), ColorNames.BLACK);
-        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.MAGENTA, ColorNames.GREEN), ColorNames.BLACK);
-        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.MAGENTA, ColorNames.BLUE), ColorNames.MAGENTA_BLUE);
-        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.MAGENTA, ColorNames.RED), ColorNames.MAGENTA_RED);
-        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.YELLOW, ColorNames.GREEN), ColorNames.YELLOW_GREEN);
-        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.YELLOW, ColorNames.BLUE), ColorNames.BLACK);
-        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.YELLOW, ColorNames.RED), ColorNames.YELLOW_RED);
+        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.CYAN_BLUE, ColorNames.GREEN), ColorNames.BLUE_GREEN);
+        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.CYAN_BLUE, ColorNames.VIOLETT), ColorNames.BLUE_VIOLETT);
+        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.CYAN_BLUE, ColorNames.ORANGE), ColorNames.BLACK);
+        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.MAGENTA_RED, ColorNames.GREEN), ColorNames.BLACK);
+        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.MAGENTA_RED, ColorNames.VIOLETT), ColorNames.PURPLE_RED);
+        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.MAGENTA_RED, ColorNames.ORANGE), ColorNames.ORANGE_RED);
+        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.YELLOW, ColorNames.GREEN), ColorNames.LIGHT_GREEN);
+        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.YELLOW, ColorNames.VIOLETT), ColorNames.BLACK);
+        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.YELLOW, ColorNames.ORANGE), ColorNames.DARK_YELLOW);
 
         //Mixing Secondary-Secondary  -> TO DO: Kontrollieren
-        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.RED, ColorNames.BLUE), ColorNames.BLACK);
-        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.RED, ColorNames.GREEN), ColorNames.BLACK);
-        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.BLUE, ColorNames.GREEN), ColorNames.BLACK);
+        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.ORANGE, ColorNames.VIOLETT), ColorNames.BLACK);
+        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.ORANGE, ColorNames.GREEN), ColorNames.BLACK);
+        mixedColorsDict.Add(new Tuple<ColorNames, ColorNames>(ColorNames.VIOLETT, ColorNames.GREEN), ColorNames.BLACK);
 
     }
 
